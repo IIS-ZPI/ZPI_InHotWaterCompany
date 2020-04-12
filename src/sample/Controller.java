@@ -22,9 +22,9 @@ public class Controller {
     @FXML
     private ChoiceBox choiceBoxCategory;
     @FXML
-    private TextArea output1, output2;
+    private TextArea priceOfTax, priceAfterTax;
     @FXML
-    private TextField input;
+    private TextField inputPrice;
     @FXML
     private Text warning;
 
@@ -53,63 +53,47 @@ public class Controller {
         String choiceBoxCategoryValue = (String) choiceBoxCategory.getValue();
 
         if (choiceBoxStateValue != null && choiceBoxCategoryValue != null) {
-
-
-            if (input.getText().isEmpty()) {
+            if (inputPrice.getText().isEmpty()) {
                 warning.setText("Enter price !");
-            } else if (!validatePrice(input.getText())) {
+            } else if (!validatePrice(inputPrice.getText())) {
                 warning.setText("Incorrect price");
             } else {
                 warning.setText("");
-                double price = Double.parseDouble(input.getText());
+                double price = Double.parseDouble(inputPrice.getText());
                 State state = findState(choiceBoxStateValue);
                 double resultOfTax = -1;
                 double resultAfterTax = -1;
                 switch (choiceBoxCategoryValue) {
                     case "Groceries":
-
                         resultOfTax = state.calcualteOfTax(price, state.getCategory().getGroceries());
                         resultAfterTax = state.calcualteAfterTax(price, state.getCategory().getGroceries());
-
                         break;
                     case "Prepared food":
-
                         resultOfTax = state.calcualteOfTax(price, state.getCategory().getPreparedFood());
                         resultAfterTax = state.calcualteAfterTax(price, state.getCategory().getPreparedFood());
-
                         break;
                     case "Prescription drug":
-
                         resultOfTax = state.calcualteOfTax(price, state.getCategory().getPrescriptionDrug());
                         resultAfterTax = state.calcualteAfterTax(price, state.getCategory().getPrescriptionDrug());
-
                         break;
                     case "Non-prescription drug":
-
                         resultOfTax = state.calcualteOfTax(price, state.getCategory().getNonPrescriptionDrug());
                         resultAfterTax = state.calcualteAfterTax(price, state.getCategory().getNonPrescriptionDrug());
-
                         break;
                     case "Clothing":
-
                         resultOfTax = state.calcualteOfTax(price, state.getCategory().getClothing());
                         resultAfterTax = state.calcualteAfterTax(price, state.getCategory().getClothing());
-
                         break;
                     case "Intangibles":
-
                         resultOfTax = state.calcualteOfTax(price, state.getCategory().getIntangibles());
                         resultAfterTax = state.calcualteAfterTax(price, state.getCategory().getIntangibles());
-
                         break;
                 }
-
-                output1.setText(new DecimalFormat("##.##").format(resultOfTax));
-                output2.setText(new DecimalFormat("##.##").format(resultAfterTax));
+                priceOfTax.setText(new DecimalFormat("##.##").format(resultOfTax));
+                priceAfterTax.setText(new DecimalFormat("##.##").format(resultAfterTax));
             }
-        } else {
+        } else
             warning.setText("Choose State and Category");
-        }
     }
 
     private boolean validatePrice(String price) {
@@ -121,7 +105,6 @@ public class Controller {
                         return false;
                     else
                         isDotted = true;
-
                 } else
                     return false;
             }
@@ -135,7 +118,6 @@ public class Controller {
             if (s.getState().equals(choiceBoxValue))
                 state = s;
         }
-
         return state;
     }
 
