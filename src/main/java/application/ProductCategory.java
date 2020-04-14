@@ -1,0 +1,10 @@
+package application;
+
+public enum ProductCategory {
+	GROCERIES,
+	PREPARED_FOOD,
+	PRESCRIPTION_DRUG,
+	NONPRESCRIPTION_DRUG,
+	CLOTHING,
+	INTANGIBLES
+}
