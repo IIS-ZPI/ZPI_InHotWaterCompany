@@ -13,7 +13,7 @@ steps:
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'SonarCheck'
-    organization: 'InHotWaterCompanty'
+    organization: 'ZPI-2020-IO2-InHotWaterCompany'
     scannerMode: 'Other'
 
 - task: SonarCloudPublish@1
