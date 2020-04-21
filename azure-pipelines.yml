@@ -13,7 +13,7 @@ steps:
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'SonarCheck'
-    organization: 'zpionar'
+    organization: 'zpisonar'
     scannerMode: 'Other'
 
 - task: Maven@3
