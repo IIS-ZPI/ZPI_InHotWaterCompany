@@ -12,8 +12,8 @@ pool:
 steps:
 - task: SonarCloudPrepare@1
   inputs:
-    SonarCloud: 'sonarV2'
-    organization: 'zpisonar'
+    SonarCloud: 'SonarCloud-prowadzący'
+    organization: 'zpi'
     scannerMode: 'Other'
 
 - task: Maven@3
