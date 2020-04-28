@@ -60,7 +60,7 @@ public class Controller implements Initializable {
             warning.setText("Enter all data");
         else {
             if (validatePrice(priceWholeString)) {
-                double WholesalePrice = Double.parseDouble(priceWholeString);
+                double wholesalePrice = Double.parseDouble(priceWholeString);
                 ProductInfo productInfo = findProduct(productString);
                 if (productInfo == null)
                     warning.setText("Product not found");
@@ -70,9 +70,9 @@ public class Controller implements Initializable {
                         warning.setText("State not found");
                     else {
                         warning.setText("");
-                        double PriceWithoutTax = calculateWithoutTax(WholesalePrice, productInfo, state);
-                        priceWithoutTaxTextField.setText(new DecimalFormat("##.##").format(PriceWithoutTax));
-                        Double margin = calculateMargin(PriceWithoutTax, productInfo);
+                        double priceWithoutTax = calculateWithoutTax(wholesalePrice, productInfo, state);
+                        priceWithoutTaxTextField.setText(new DecimalFormat("##.##").format(priceWithoutTax));
+                        Double margin = calculateMargin(priceWithoutTax, productInfo);
                         marginTextField.setText(new DecimalFormat("##.##").format(margin));
                     }
                 }
@@ -82,8 +82,8 @@ public class Controller implements Initializable {
         }
     }
 
-    private double calculateWithoutTax(double WholesalePrice, ProductInfo productInfo, State state) {
-        return WholesalePrice / ((100.0 + getTaxCategory(productInfo, state)) / 100);
+    private double calculateWithoutTax(double wholesalePrice, ProductInfo productInfo, State state) {
+        return wholesalePrice / ((100.0 + getTaxCategory(productInfo, state)) / 100);
     }
 
     private double calculateMargin(double priceWithoutTax, ProductInfo productInfo) {
@@ -144,6 +144,8 @@ public class Controller implements Initializable {
                 break;
             case "intangibles":
                 category = state.getCategory().getIntangibles();
+                break;
+            default:
                 break;
         }
         return category;
