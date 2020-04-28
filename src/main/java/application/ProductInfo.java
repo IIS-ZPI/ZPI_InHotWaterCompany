@@ -1,30 +1,37 @@
 package application;
 
 public class ProductInfo {
-	private final String name;
-	private final ProductCategory category;
-	private final double price;
-	
-	public ProductInfo(String name, ProductCategory category, double price) {
-		this.name = name;
-		this.category = category;
-		this.price = price;
-	}
+    private String product;
+    private String category;
+    private double wholesalePrice;
 
-	public String getName() {
-		return name;
-	}
+    public ProductInfo(String product, String category, double wholesalePrice) {
+        this.product = product;
+        this.category = category;
+        this.wholesalePrice = wholesalePrice;
+    }
 
-	public ProductCategory getCategory() {
-		return category;
-	}
+    public String getProduct() {
+        return product;
+    }
 
-	public double getPrice() {
-		return price;
-	}
-	
-	@Override
-	public String toString() {
-		return name + ", " + category + ", " + price;
-	}
+    public void setProduct(String product) {
+        this.product = product;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setWholesalePrice(double wholesalePrice) {
+        this.wholesalePrice = wholesalePrice;
+    }
+
+    public double getWholesalePrice() {
+        return wholesalePrice;
+    }
 }
