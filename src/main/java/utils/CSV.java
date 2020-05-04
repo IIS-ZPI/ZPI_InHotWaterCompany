@@ -9,6 +9,12 @@ public class CSV {
 	private String delimiter = ",";
 	private long dataOffset;
 	
+	/**
+	 * Provide functionality to read data from CSV file
+	 * 
+	 * @param path - to csv file
+	 * @throws IOException if something gone wrong
+	 */
 	public CSV(String path) throws IOException {
 		file = new RandomAccessFile(path, "r");
 		
@@ -20,15 +26,31 @@ public class CSV {
 		dataOffset = file.getFilePointer();
 	}
 	
+	/**
+	 * Returns header
+	 * 
+	 * @return splitted header
+	 */
 	public String[] getHeader() {
 		return header;
 	}
 	
+	/**
+	 * Reads row and moves to next
+	 * 
+	 * @return splitted row, or null if EOF
+	 * @throws IOException if something gone wrong
+	 */
 	public String[] readRow() throws IOException {
 		String line = file.readLine();
 		return (line != null) ? line.split(delimiter) : null; 
 	}
 	
+	/**
+	 * Moves to first row
+	 * 
+	 * @throws IOException if something gone wrong
+	 */
 	public void revert() throws IOException {
 		file.seek(dataOffset);
 	}
