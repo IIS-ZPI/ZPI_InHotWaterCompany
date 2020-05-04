@@ -14,179 +14,143 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class FXTests extends ApplicationTest {
 
+    Text warningText;
+    TextField searchProductTextField;
+    TextField searchStateTextField;
+    TextField wholesaleTextField;
+    TextField marginTextField;
+    TextField priceWithoutTaxTextField;
+
     @Override
     public void start(Stage stage) throws Exception {
         Main main = new Main();
         ((Application) main).start(stage);
+        warningText = find("#warning");
+        searchProductTextField = find("#searchProduct");
+        searchStateTextField = find("#searchState");
+        wholesaleTextField = find("#wholesalePriceTextField");
+        marginTextField = find("#marginTextField");
+        priceWithoutTaxTextField = find("#priceWithoutTaxTextField");
     }
 
     @Test
     public void warningText_EmptyProductStateWholesale_EnterAllData() {
-        Text text = find("#warning");
         clickOn("#checkButton");
-        assertThat(text.getText(), equalTo("Enter all data"));
+        
+        assertThat(warningText.getText(), equalTo("Enter all data"));
     }
 
     @Test
     public void warningText_OnlyProductName_EnterAllData() {
-        Text text = find("#warning");
-        TextField textField = find("#searchProduct");
-        textField.setText("ExampleData");
+        searchProductTextField.setText("ExampleData");
 
         clickOn("#checkButton");
-        assertThat(text.getText(), equalTo("Enter all data"));
+
+        assertThat(warningText.getText(), equalTo("Enter all data"));
     }
 
     @Test
     public void warningText_OnlyStateName_EnterAllData() {
-        Text text = find("#warning");
-        TextField textField = find("#searchState");
-        textField.setText("ExampleData");
+        searchStateTextField.setText("ExampleData");
 
         clickOn("#checkButton");
-        assertThat(text.getText(), equalTo("Enter all data"));
+
+        assertThat(warningText.getText(), equalTo("Enter all data"));
     }
 
     @Test
     public void warningText_OnlyWholesale_EnterAllData() {
-        Text text = find("#warning");
-        TextField textField = find("#wholesalePriceTextField");
-        textField.setText("ExampleData");
+        wholesaleTextField.setText("ExampleData");
 
         clickOn("#checkButton");
-        assertThat(text.getText(), equalTo("Enter all data"));
+
+        assertThat(warningText.getText(), equalTo("Enter all data"));
     }
 
     @Test
     public void warningText_wholesaleIsString_IncorrectPrice() {
-        Text text = find("#warning");
-
-        TextField product = find("#searchProduct");
-        product.setText("ExampleData");
-
-        TextField state = find("#searchState");
-        state.setText("ExampleData");
-
-        TextField wholesale = find("#wholesalePriceTextField");
-        wholesale.setText("ExampleData");
+        searchProductTextField.setText("ExampleData");
+        searchStateTextField.setText("ExampleData");
+        wholesaleTextField.setText("ExampleData");
 
         clickOn("#checkButton");
 
-        assertThat(text.getText(), equalTo("Incorrect price"));
+        assertThat(warningText.getText(), equalTo("Incorrect price"));
     }
 
     @Test
     public void warningText_wholesaleIsNegative_IncorrectPrice() {
-        Text text = find("#warning");
-
-        TextField product = find("#searchProduct");
-        product.setText("ExampleData");
-
-        TextField state = find("#searchState");
-        state.setText("ExampleData");
-
-        TextField wholesale = find("#wholesalePriceTextField");
-        wholesale.setText("-10");
+        searchProductTextField.setText("ExampleData");
+        searchStateTextField.setText("ExampleData");
+        wholesaleTextField.setText("-10");
 
         clickOn("#checkButton");
 
-        assertThat(text.getText(), equalTo("Incorrect price"));
+        assertThat(warningText.getText(), equalTo("Incorrect price"));
     }
 
     @Test
     public void warningText_ProductNotInDataBase_ProductNotFound() {
-        Text text = find("#warning");
-
-        TextField product = find("#searchProduct");
-        product.setText("ExampleData");
-
-        TextField state = find("#searchState");
-        state.setText("ExampleData");
-
-        TextField wholesale = find("#wholesalePriceTextField");
-        wholesale.setText("10");
+        searchProductTextField.setText("ExampleData");
+        searchStateTextField.setText("ExampleData");
+        wholesaleTextField.setText("10");
 
         clickOn("#checkButton");
 
-        assertThat(text.getText(), equalTo("Product not found"));
+        assertThat(warningText.getText(), equalTo("Product not found"));
     }
 
     @Test
     public void warningText_StateNotInDataBase_StateNotFound() {
-        Text text = find("#warning");
-
-        TextField product = find("#searchProduct");
-        product.setText("Oxycodone");
-
-        TextField state = find("#searchState");
-        state.setText("ExampleData");
-
-        TextField wholesale = find("#wholesalePriceTextField");
-        wholesale.setText("10");
+        searchProductTextField.setText("Oxycodone");
+        searchStateTextField.setText("ExampleData");
+        wholesaleTextField.setText("10");
 
         clickOn("#checkButton");
 
-        assertThat(text.getText(), equalTo("State not found"));
+        assertThat(warningText.getText(), equalTo("State not found"));
     }
 
     @Test
     public void marginTextField_isEditable_False() {
-        TextField textField = find("#marginTextField");
-        assertThat(textField.isEditable(), equalTo(false));
+        assertThat(marginTextField.isEditable(), equalTo(false));
     }
 
     @Test
     public void marginTextField_isEmptyOnStart_True() {
-        TextField textField = find("#marginTextField");
-        assertThat(textField.getText(), equalTo(""));
+        assertThat(marginTextField.getText(), equalTo(""));
     }
 
     @Test
     public void marginTextField_isNotEmpty_True() {
-        TextField product = find("#searchProduct");
-        product.setText("Oxycodone");
-
-        TextField state = find("#searchState");
-        state.setText("Alaska");
-
-        TextField wholesale = find("#wholesalePriceTextField");
-        wholesale.setText("10");
+        searchProductTextField.setText("Oxycodone");
+        searchStateTextField.setText("Alaska");
+        wholesaleTextField.setText("10");
 
         clickOn("#checkButton");
 
-        TextField textField = find("#marginTextField");
-
-        assertThat(textField.getText(), Matchers.not(Matchers.emptyString()));
+        assertThat(marginTextField.getText(), Matchers.not(Matchers.emptyString()));
     }
 
     @Test
     public void priceWithoutTaxTextField_isEditable_False() {
-        TextField textField = find("#priceWithoutTaxTextField");
-        assertThat(textField.isEditable(), equalTo(false));
+        assertThat(priceWithoutTaxTextField.isEditable(), equalTo(false));
     }
 
     @Test
     public void priceWithoutTaxTextField_isEmptyOnStart_True() {
-        TextField textField = find("#priceWithoutTaxTextField");
-        assertThat(textField.getText(), equalTo(""));
+        assertThat(priceWithoutTaxTextField.getText(), equalTo(""));
     }
 
     @Test
     public void priceWithoutTaxTextField_isNotEmpty_True() {
-        TextField product = find("#searchProduct");
-        product.setText("Oxycodone");
-
-        TextField state = find("#searchState");
-        state.setText("Alaska");
-
-        TextField wholesale = find("#wholesalePriceTextField");
-        wholesale.setText("10");
+        searchProductTextField.setText("Oxycodone");
+        searchStateTextField.setText("Alaska");
+        wholesaleTextField.setText("10");
 
         clickOn("#checkButton");
 
-        TextField textField = find("#priceWithoutTaxTextField");
-
-        assertThat(textField.getText(), Matchers.not(Matchers.emptyString()));
+        assertThat(priceWithoutTaxTextField.getText(), Matchers.not(Matchers.emptyString()));
     }
 
     public <T extends Node> T find(final String query) {
