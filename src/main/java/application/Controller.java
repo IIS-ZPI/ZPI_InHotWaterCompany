@@ -25,7 +25,7 @@ public class Controller implements Initializable {
     @FXML
     private TextField searchState;
     @FXML
-    private TextField wholesalePriceTextField;
+    private TextField priceTextField;
     @FXML
     private TextField marginTextField;
     @FXML
@@ -53,14 +53,14 @@ public class Controller implements Initializable {
     }
 
     public void onClickButton() {
-        String priceWholeString = wholesalePriceTextField.getText();
+        String priceString = priceTextField.getText();
         String stateString = searchState.getText();
         String productString = searchProduct.getText();
-        if (priceWholeString.isEmpty() || stateString.isEmpty() || productString.isEmpty())
+        if (priceString.isEmpty() || stateString.isEmpty() || productString.isEmpty())
             warning.setText("Enter all data");
         else {
-            if (validatePrice(priceWholeString)) {
-                double wholesalePrice = Double.parseDouble(priceWholeString);
+            if (validatePrice(priceString)) {
+                double price = Double.parseDouble(priceString);
                 ProductInfo productInfo = findProduct(productString);
                 if (productInfo == null)
                     warning.setText("Product not found");
@@ -70,7 +70,7 @@ public class Controller implements Initializable {
                         warning.setText("State not found");
                     else {
                         warning.setText("");
-                        double priceWithoutTax = calculateWithoutTax(wholesalePrice, productInfo, state);
+                        double priceWithoutTax = calculateWithoutTax(price, productInfo, state);
                         priceWithoutTaxTextField.setText(new DecimalFormat("##.##").format(priceWithoutTax));
                         Double margin = calculateMargin(priceWithoutTax, productInfo);
                         marginTextField.setText(new DecimalFormat("##.##").format(margin));
@@ -82,18 +82,23 @@ public class Controller implements Initializable {
         }
     }
 
-    private double calculateWithoutTax(double wholesalePrice, ProductInfo productInfo, State state) {
-        return wholesalePrice / ((100.0 + getTaxCategory(productInfo, state)) / 100);
+    double calculateWithoutTax(double price, ProductInfo productInfo, State state) {
+        return price / ((100.0 + getTaxFromCategory(productInfo, state)) / 100);
     }
 
-    private double calculateMargin(double priceWithoutTax, ProductInfo productInfo) {
+    double calculateMargin(double priceWithoutTax, ProductInfo productInfo) {
         return priceWithoutTax - productInfo.getWholesalePrice();
     }
 
-    private boolean validatePrice(String price) {
+    boolean validatePrice(String price) {
+        if (price.isEmpty())
+            return false;
+
         if (price.equals("."))
             return false;
+
         boolean isDotted = false;
+        int numberAfterDot = 0;
         for (int i = 0; i < price.length(); i++) {
             if (!Character.isDigit(price.charAt(i))) {
                 if (price.charAt(i) == '.') {
@@ -104,13 +109,18 @@ public class Controller implements Initializable {
                 } else
                     return false;
             }
+            if (isDotted && Character.isDigit(price.charAt(i)))
+                numberAfterDot++;
+
+            if (numberAfterDot > 2)
+                return false;
         }
         return true;
     }
 
     private State findState(String state) {
         for (State s : states) {
-            if (s.getState().equals(state))
+            if (s.getState().toLowerCase().equals(state.toLowerCase()))
                 return s;
         }
         return null;
@@ -118,13 +128,13 @@ public class Controller implements Initializable {
 
     private ProductInfo findProduct(String product) {
         for (ProductInfo productInfo : productInfoList) {
-            if (productInfo.getProduct().equals(product))
+            if (productInfo.getProduct().toLowerCase().equals(product.toLowerCase()))
                 return productInfo;
         }
         return null;
     }
 
-    private double getTaxCategory(ProductInfo productInfo, State state) {
+    double getTaxFromCategory(ProductInfo productInfo, State state) {
         double category = -1;
         switch (productInfo.getCategory()) {
             case "groceries":
