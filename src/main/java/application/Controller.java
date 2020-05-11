@@ -90,10 +90,15 @@ public class Controller implements Initializable {
         return priceWithoutTax - productInfo.getWholesalePrice();
     }
 
-    private boolean validatePrice(String price) {
+    boolean validatePrice(String price) {
+        if (price.isEmpty())
+            return false;
+
         if (price.equals("."))
             return false;
+
         boolean isDotted = false;
+        int numberAfterDot = 0;
         for (int i = 0; i < price.length(); i++) {
             if (!Character.isDigit(price.charAt(i))) {
                 if (price.charAt(i) == '.') {
@@ -104,6 +109,11 @@ public class Controller implements Initializable {
                 } else
                     return false;
             }
+            if (isDotted && Character.isDigit(price.charAt(i)))
+                numberAfterDot++;
+
+            if (numberAfterDot > 2)
+                return false;
         }
         return true;
     }
