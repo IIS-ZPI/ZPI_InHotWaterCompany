@@ -33,14 +33,14 @@ public class Controller implements Initializable {
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-        states.add(new State("Alabama", 4, new Category(4, 4, 0, 4, 4, 4)));
-        states.add(new State("Alaska", 0, new Category(0, 0, 0, 0, 0, 0)));
-        states.add(new State("Arizona", 5.6, new Category(0, 5.6, 0, 5.6, 5.6, 5.6)));
-        states.add(new State("Arkansas", 6.5, new Category(0.125, 6.5, 0, 6.5, 6.5, 0)));
-        states.add(new State("California", 7.25, new Category(0, 7.25, 0, 7.25, 7.25, 0)));
-        states.add(new State("Colorado", 2.9, new Category(0, 2.9, 0, 2.9, 2.9, 2.9)));
-        states.add(new State("Connecticut", 6.35, new Category(0, 6.35, 0, 0, 6.35, 1)));
-        states.add(new State("Delaware", 0, new Category(0, 0, 0, 0, 0, 0)));
+        states.add(new State("Alabama", 4, new CategoryTax(4, 4, 0, 4, 4, 4)));
+        states.add(new State("Alaska", 0, new CategoryTax(0, 0, 0, 0, 0, 0)));
+        states.add(new State("Arizona", 5.6, new CategoryTax(0, 5.6, 0, 5.6, 5.6, 5.6)));
+        states.add(new State("Arkansas", 6.5, new CategoryTax(0.125, 6.5, 0, 6.5, 6.5, 0)));
+        states.add(new State("California", 7.25, new CategoryTax(0, 7.25, 0, 7.25, 7.25, 0)));
+        states.add(new State("Colorado", 2.9, new CategoryTax(0, 2.9, 0, 2.9, 2.9, 2.9)));
+        states.add(new State("Connecticut", 6.35, new CategoryTax(0, 6.35, 0, 0, 6.35, 1)));
+        states.add(new State("Delaware", 0, new CategoryTax(0, 0, 0, 0, 0, 0)));
         states.forEach(x -> stateListAutoCompletion.add(x.getState()));
         productInfoList.add(new ProductInfo("apple", "groceries", 0.24));
         productInfoList.add(new ProductInfo("orange", "groceries", 0.35));
@@ -136,7 +136,7 @@ public class Controller implements Initializable {
 
     double getTaxFromCategory(ProductInfo productInfo, State state) {
         double category = -1;
-        switch (productInfo.getCategory()) {
+        switch (productInfo.getCategoryString()) {
             case "groceries":
                 category = state.getCategory().getGroceries();
                 break;

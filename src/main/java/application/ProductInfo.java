@@ -1,36 +1,38 @@
 package application;
 
+import utils.CategoryResolver;
+
 public class ProductInfo {
     private String product;
-    private String category;
+    private ProductCategory category;
     private double wholesalePrice;
-
-    public ProductInfo(String product, String category, double wholesalePrice) {
+    
+    public ProductInfo(String product, ProductCategory category, double wholesalePrice) {
         this.product = product;
         this.category = category;
+        this.wholesalePrice = wholesalePrice;
+    }
+    
+    @Deprecated
+    public ProductInfo(String product, String category, double wholesalePrice) {
+        this.product = product;
+        this.category = CategoryResolver.getEnum(category);
         this.wholesalePrice = wholesalePrice;
     }
 
     public String getProduct() {
         return product;
     }
-
-    public void setProduct(String product) {
-        this.product = product;
+    
+	public ProductCategory getCategory() {
+    	return category;
     }
-
-    public String getCategory() {
-        return category;
+    
+    @Deprecated
+    public String getCategoryString() {
+        return CategoryResolver.getString(category);
     }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public void setWholesalePrice(double wholesalePrice) {
-        this.wholesalePrice = wholesalePrice;
-    }
-
+    
     public double getWholesalePrice() {
         return wholesalePrice;
     }
