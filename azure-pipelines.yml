@@ -32,6 +32,11 @@ steps:
     sonarQubeRunAnalysis: true
     sqMavenPluginVersionChoice: 'latest'
 
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'JaCoCo'
+    summaryFileLocation: '**/target/coverage-reports/jacoco-unit.exec'
+
 - task: SonarCloudPublish@1
   inputs:
     pollingTimeoutSec: '300'
