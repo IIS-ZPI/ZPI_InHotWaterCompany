@@ -11,7 +11,7 @@ public class ControllerTests {
 
     ProductInfo apple = new ProductInfo("apple", "groceries", 5.0);
     //ProductInfo apple = new ProductInfo("apple", ProductCategory.GROCERIES, 5.0);
-    Category categories = new Category(1, 1, 1, 1, 1, 1);
+    CategoryTax categories = new CategoryTax(1, 1, 1, 1, 1, 1);
     State alaska = new State("Alaska", 0.5, categories);
 
     @Test
