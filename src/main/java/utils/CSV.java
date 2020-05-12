@@ -10,7 +10,7 @@ public class CSV {
 	private long dataOffset;
 	
 	/**
-	 * Provide functionality to read data from CSV file
+	 * Opens CSV file and prepare it for reading
 	 * 
 	 * @param path - to csv file
 	 * @throws IOException if something gone wrong
@@ -53,6 +53,15 @@ public class CSV {
 	 */
 	public void revert() throws IOException {
 		file.seek(dataOffset);
+	}
+	
+	/**
+	 * Closes CSV file
+	 * 
+	 * @throws IOException if something gone wrong
+	 */
+	public void close() throws IOException {
+		file.close();
 	}
 	
 	@Override

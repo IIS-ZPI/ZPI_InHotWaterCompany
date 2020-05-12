@@ -1,9 +1,9 @@
 package application;
 
-public class Category {
+public class CategoryTax {
     private double groceries, preparedFood, prescriptionDrug, nonPrescriptionDrug, clothing, intangibles;
 
-    public Category(double groceries, double preparedFood, double prescriptionDrug, double nonPrescriptionDrug, double clothing, double intangibles) {
+    public CategoryTax(double groceries, double preparedFood, double prescriptionDrug, double nonPrescriptionDrug, double clothing, double intangibles) {
         this.groceries = groceries;
         this.preparedFood = preparedFood;
         this.prescriptionDrug = prescriptionDrug;

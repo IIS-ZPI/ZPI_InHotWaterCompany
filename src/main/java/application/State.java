@@ -3,16 +3,15 @@ package application;
 public class State {
     private String state;
     private double baseTax;
-    private Category category;
+    private CategoryTax category;
 
-    public State(String state, double baseTax, Category category) {
+    public State(String state, double baseTax, CategoryTax category) {
         this.state = state;
         this.baseTax = baseTax;
         this.category = category;
     }
 
-
-    public Category getCategory() {
+    public CategoryTax getCategory() {
         return category;
     }
 

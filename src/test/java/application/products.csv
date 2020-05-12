@@ -1,0 +1,13 @@
+product,category,wholesale_price
+apple,groceries,0.24
+orange,groceries,0.35
+pineapple,groceries,0.78
+Oxycodone,Non-prescription-drug,16.99
+Fentanyl,Non-prescription-drug,13.58
+Morphine,Prescription-drug,128.67
+Sweater,Clothing,118.56
+Baseball_hat,Clothing,20.14
+Mittens,Clothing,9.99
+Ramen,Prepared-food,3.54
+Canned_beans,Prepared-food,1.24
+Tomato_puree,Prepared-food,0.78
