@@ -40,5 +40,4 @@ steps:
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: 'JaCoCo'
-    summaryFileLocation: '**/site/jacoco/jacoco.xml'
-    reportDirectory: '**/site/jacoco'
+    summaryFileLocation: 'jacoco.xml'
