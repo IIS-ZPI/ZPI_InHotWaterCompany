@@ -23,6 +23,7 @@ steps:
     mavenPomFile: 'pom.xml'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    codeCoverageToolOption: 'JaCoCo'
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '1.11'
     mavenVersionOption: 'Default'
@@ -35,3 +36,8 @@ steps:
 - task: SonarCloudPublish@1
   inputs:
     pollingTimeoutSec: '300'
+
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'JaCoCo'
+    summaryFileLocation: '**/jacoco.xml'
