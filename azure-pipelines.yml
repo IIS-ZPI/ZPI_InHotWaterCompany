@@ -35,7 +35,7 @@ steps:
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: 'JaCoCo'
-    summaryFileLocation: '**/target/coverage-reports/jacoco-unit.exec'
+    summaryFileLocation: '**/coverage-reports/jacoco-unit.exec'
 
 - task: SonarCloudPublish@1
   inputs:
