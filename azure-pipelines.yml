@@ -36,7 +36,7 @@ steps:
   inputs:
     codeCoverageTool: 'JaCoCo'
     summaryFileLocation: '**/coverage-reports/jacoco-unit.exec'
-    pathToSources: '**/site/jacoco/*.xml'
+    reportDirectory: '**/site/jacoco/*.xml'
 
 - task: SonarCloudPublish@1
   inputs:
