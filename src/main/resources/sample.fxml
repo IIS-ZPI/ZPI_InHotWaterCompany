@@ -6,15 +6,15 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="499.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
    <children>
-      <Button fx:id="checkButton" layoutX="603.0" layoutY="139.0" mnemonicParsing="false" onAction="#onClickButton" text="Check" />
+      <Button fx:id="checkButton" layoutX="603.0" layoutY="139.0" mnemonicParsing="false" onAction="#onClickCheckButton" text="Check" />
       <Text fx:id="warning" fill="#ff0303" layoutX="32.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="435.7294921875">
          <font>
             <Font size="17.0" />
          </font>
       </Text>
-      <TextField fx:id="searchProduct" layoutX="32.0" layoutY="139.0" prefHeight="26.0" prefWidth="166.0" promptText="Product" />
-      <TextField fx:id="searchState" layoutX="228.0" layoutY="139.0" prefHeight="26.0" prefWidth="166.0" promptText="State" />
-      <TextField fx:id="priceTextField" layoutX="415.0" layoutY="139.0" prefHeight="26.0" prefWidth="166.0" promptText="Price" />
+      <TextField fx:id="searchProductTextField" layoutX="32.0" layoutY="139.0" prefHeight="26.0" prefWidth="166.0" promptText="Product" />
+      <TextField fx:id="searchStateTextField" layoutX="228.0" layoutY="139.0" prefHeight="26.0" prefWidth="166.0" promptText="State" />
+      <TextField fx:id="priceTextField" layoutX="425.0" layoutY="139.0" prefHeight="26.0" prefWidth="166.0" promptText="Price" />
       <TextField fx:id="marginTextField" alignment="TOP_LEFT" blendMode="SRC_ATOP" depthTest="DISABLE" editable="false" layoutX="421.0" layoutY="224.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="45.0" prefWidth="170.0" />
       <TextField fx:id="priceWithoutTaxTextField" alignment="TOP_LEFT" blendMode="SRC_ATOP" depthTest="DISABLE" editable="false" layoutX="421.0" layoutY="314.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="45.0" prefWidth="170.0" />
       <Text layoutX="420.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Margin" />
@@ -24,5 +24,8 @@
             <Font size="39.0" />
          </font>
       </Text>
+      <TextField fx:id="wholesalePriceTextField" editable="false" layoutX="32.0" layoutY="200.0" prefHeight="26.0" prefWidth="166.0" />
+      <Button layoutX="32.0" layoutY="237.0" mnemonicParsing="false" onAction="#onClickCheckProductWholesalePrice" text="Check Price" />
+      <Text layoutX="32.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wholesale price " />
    </children>
 </Pane>

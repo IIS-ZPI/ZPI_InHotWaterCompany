@@ -2,6 +2,7 @@ package application;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import org.controlsfx.control.textfield.TextFields;
@@ -21,15 +22,17 @@ public class Controller implements Initializable {
     @FXML
     private Text warning;
     @FXML
-    private TextField searchProduct;
+    private TextField searchProductTextField;
     @FXML
-    private TextField searchState;
+    private TextField searchStateTextField;
     @FXML
     private TextField priceTextField;
     @FXML
     private TextField marginTextField;
     @FXML
     private TextField priceWithoutTaxTextField;
+    @FXML
+    private TextField wholesalePriceTextField;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
@@ -48,14 +51,14 @@ public class Controller implements Initializable {
         productInfoList.add(new ProductInfo("Oxycodone", "Non-prescription-drug", 16.99));
         productInfoList.add(new ProductInfo("Fentanyl", "Non-prescription-drug", 13.58));
         productInfoList.forEach(x -> productListAutoCompletion.add(x.getProduct()));
-        TextFields.bindAutoCompletion(searchProduct, productListAutoCompletion);
-        TextFields.bindAutoCompletion(searchState, stateListAutoCompletion);
+        TextFields.bindAutoCompletion(searchProductTextField, productListAutoCompletion);
+        TextFields.bindAutoCompletion(searchStateTextField, stateListAutoCompletion);
     }
 
-    public void onClickButton() {
+    public void onClickCheckButton() {
         String priceString = priceTextField.getText();
-        String stateString = searchState.getText();
-        String productString = searchProduct.getText();
+        String stateString = searchStateTextField.getText();
+        String productString = searchProductTextField.getText();
         if (priceString.isEmpty() || stateString.isEmpty() || productString.isEmpty())
             warning.setText("Enter all data");
         else {
@@ -159,5 +162,18 @@ public class Controller implements Initializable {
                 break;
         }
         return category;
+    }
+
+    public void onClickCheckProductWholesalePrice() {
+        String productString = searchProductTextField.getText();
+        ProductInfo productInfo = findProduct(productString);
+        if (productInfo != null){
+            wholesalePriceTextField.setStyle("-fx-text-fill: black");
+            wholesalePriceTextField.setText(String.valueOf(productInfo.getWholesalePrice()));
+        }
+        else{
+            wholesalePriceTextField.setStyle("-fx-text-fill: red");
+            wholesalePriceTextField.setText("Not found");
+        }
     }
 }
