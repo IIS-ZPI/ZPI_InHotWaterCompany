@@ -24,8 +24,12 @@ public class ProductInfo {
         return product;
     }
     
+	public ProductCategory getCategory() {
+    	return category;
+    }
+    
     @Deprecated
-    public String getCategory() {
+    public String getCategoryString() {
         return CategoryResolver.getString(category);
     }
     

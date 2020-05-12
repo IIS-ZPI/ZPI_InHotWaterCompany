@@ -2,15 +2,18 @@ package utils;
 
 import application.ProductCategory;
 
+/**
+ * Temporary class to provide backward compatibility for Controller class
+ */
 public abstract class CategoryResolver {
 	public static ProductCategory getEnum(String category) {
 		switch (category) {
 			case "groceries":				return ProductCategory.GROCERIES;
-			case "Prepared-food":			return ProductCategory.PREPARED_FOOD;
-			case "Prescription-drug":		return ProductCategory.PRESCRIPTION_DRUG;
+			case "preparedFood":			return ProductCategory.PREPARED_FOOD;
+			case "prescription-drug":		return ProductCategory.PRESCRIPTION_DRUG;
 			case "Non-prescription-drug":	return ProductCategory.NONPRESCRIPTION_DRUG;
-			case "Clothing":				return ProductCategory.CLOTHING;
-			case "Intangibles":				return ProductCategory.INTANGIBLES;
+			case "clothing":				return ProductCategory.CLOTHING;
+			case "intangibles":				return ProductCategory.INTANGIBLES;
 			default:						return ProductCategory.UNDEFINED;
 		}
 	}
@@ -18,12 +21,12 @@ public abstract class CategoryResolver {
 	public static String getString(ProductCategory category) {
 		switch (category) {
 			case GROCERIES:				return "groceries";
-			case PREPARED_FOOD:			return "Prepared-food";
-			case PRESCRIPTION_DRUG:		return "Prescription-drug";
+			case PREPARED_FOOD:			return "preparedFood";
+			case PRESCRIPTION_DRUG:		return "prescription-drug";
 			case NONPRESCRIPTION_DRUG:	return "Non-prescription-drug";
-			case CLOTHING:				return "Clothing";
-			case INTANGIBLES:			return "Intangibles";
-			default:					return "Undefined";
+			case CLOTHING:				return "clothing";
+			case INTANGIBLES:			return "intangibles";
+			default:					return "undefined";
 		}
 	}
 }

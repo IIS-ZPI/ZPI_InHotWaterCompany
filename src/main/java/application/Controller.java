@@ -126,7 +126,7 @@ public class Controller implements Initializable {
 
     private double getTaxCategory(ProductInfo productInfo, State state) {
         double category = -1;
-        switch (productInfo.getCategory()) {
+        switch (productInfo.getCategoryString()) {
             case "groceries":
                 category = state.getCategory().getGroceries();
                 break;

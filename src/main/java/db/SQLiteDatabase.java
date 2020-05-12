@@ -4,14 +4,21 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import application.ProductInfo;
 
 public class SQLiteDatabase implements Database {
 	private final Connection connection;
 	
+	/**
+	 * Connects to exiting SQLite database specified by path.
+	 * If database doesn't exists, creates a new database file and connects to it
+	 * 
+	 * @param path - path to database file
+	 * @throws DatabaseException if something gone wrong
+	 */
 	public SQLiteDatabase(String path) throws DatabaseException {
 		try {
 			connection = DriverManager.getConnection("jdbc:sqlite:" + path);
@@ -40,7 +47,18 @@ public class SQLiteDatabase implements Database {
 
 	@Override
 	public void insertProduct(ProductInfo productInfo) throws DatabaseException {
-		throw new DatabaseException("Not implemented yet");
+		try {
+			String sql = "INSERT INTO product(name, category, price) VALUES (?, ?, ?)";
+			
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, productInfo.getProduct());
+			preparedStatement.setInt(2, productInfo.getCategory().ordinal() + 1);
+			preparedStatement.setDouble(3, productInfo.getWholesalePrice());
+			preparedStatement.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new DatabaseException(e.getMessage());
+		}
 	}
 
 	@Override
