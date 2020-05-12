@@ -35,3 +35,9 @@ steps:
 - task: SonarCloudPublish@1
   inputs:
     pollingTimeoutSec: '300'
+
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'JaCoCo'
+    summaryFileLocation: '**/coverage-reports/jacoco-unit.exec'
+    reportDirectory: '**/site/jacoco/*.xml'
