@@ -48,8 +48,8 @@ public class CSVTests {
         assertThat(strings, equalTo(null));
     }
 
-    @Test @Ignore
-    public void getRow_ArrayInRange_ReturnedSpecifiedData() { //FIXME!!!!
+    @Test
+    public void getRow_ArrayInRange_ReturnedSpecifiedData() {
         String[] strings = {"Some data"};
 
         for (int i = 0; i < 5; i++) {
@@ -60,9 +60,9 @@ public class CSVTests {
             }
         }
 
-        assertThat(strings[0], equalTo("apple"));
-        assertThat(strings[1], equalTo("groceries"));
-        assertThat(strings[2], equalTo("0.24"));
+        assertThat(strings[0], equalTo("Fentanyl"));
+        assertThat(strings[1], equalTo("Non-prescription-drug"));
+        assertThat(strings[2], equalTo("13.58"));
     }
 
     @Test
