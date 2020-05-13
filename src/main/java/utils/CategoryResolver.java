@@ -5,7 +5,11 @@ import application.ProductCategory;
 /**
  * Temporary class to provide backward compatibility for Controller class
  */
-public abstract class CategoryResolver {
+public final class CategoryResolver {
+	private CategoryResolver() {
+		throw new IllegalStateException("Utility class");
+	}
+	
 	public static ProductCategory getEnum(String category) {
 		switch (category) {
 			case "groceries":				return ProductCategory.GROCERIES;
