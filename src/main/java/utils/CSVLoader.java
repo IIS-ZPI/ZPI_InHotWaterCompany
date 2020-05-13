@@ -7,7 +7,11 @@ import application.ProductInfo;
 import db.Database;
 import db.DatabaseException;
 
-public abstract class CSVLoader {
+public final class CSVLoader {
+	private CSVLoader() {
+		throw new IllegalStateException("Utility class");
+	}
+	
 	private static ProductCategory resolveCategory(String categoryString) {
 		switch (categoryString) {
 			case "groceries":				return ProductCategory.GROCERIES;

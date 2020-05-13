@@ -30,14 +30,12 @@ public class SQLiteDatabase implements Database {
 
 	@Override
 	public void initialize(String pathToSql) throws DatabaseException {
-		try {
-			RandomAccessFile file = new RandomAccessFile(pathToSql, "r");
+		try (RandomAccessFile file = new RandomAccessFile(pathToSql, "r");
+			 Statement statement = connection.createStatement()) {
+			
 			byte[] buffer = new byte[(int) file.length()];
-			
 			file.readFully(buffer);
-			file.close();
 			
-			Statement statement = connection.createStatement();
 			statement.executeUpdate(new String(buffer));
 			
 		} catch (IOException | SQLException e) {
@@ -47,10 +45,9 @@ public class SQLiteDatabase implements Database {
 
 	@Override
 	public void insertProduct(ProductInfo productInfo) throws DatabaseException {
-		try {
-			String sql = "INSERT INTO product(name, category, price) VALUES (?, ?, ?)";
+		String sql = "INSERT INTO product(name, category, price) VALUES (?, ?, ?)";
 			
-			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 			preparedStatement.setString(1, productInfo.getProduct());
 			preparedStatement.setInt(2, productInfo.getCategory().ordinal() + 1);
 			preparedStatement.setDouble(3, productInfo.getWholesalePrice());
@@ -72,7 +69,7 @@ public class SQLiteDatabase implements Database {
 			connection.close();
 			
 		} catch (SQLException e) {
-			new DatabaseException(e.getMessage());
+			throw new DatabaseException(e.getMessage());
 		}
 	}
 }
