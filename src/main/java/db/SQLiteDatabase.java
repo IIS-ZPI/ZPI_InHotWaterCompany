@@ -30,18 +30,15 @@ public class SQLiteDatabase implements Database {
 
 	@Override
 	public void initialize(String pathToSql) throws DatabaseException {
-		try (RandomAccessFile file = new RandomAccessFile(pathToSql, "r")) {
+		try (RandomAccessFile file = new RandomAccessFile(pathToSql, "r");
+			 Statement statement = connection.createStatement()) {
+			
 			byte[] buffer = new byte[(int) file.length()];
 			file.readFully(buffer);
 			
-			try (Statement statement = connection.createStatement()) {
-				statement.executeUpdate(new String(buffer));
-				
-			} catch (SQLException e) {
-				throw new DatabaseException(e.getMessage());				
-			}
+			statement.executeUpdate(new String(buffer));
 			
-		} catch (IOException e) {
+		} catch (IOException | SQLException e) {
 			throw new DatabaseException(e.getMessage());
 		}
 	}
