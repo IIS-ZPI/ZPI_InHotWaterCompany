@@ -1,8 +1,10 @@
 package db;
 
 import java.sql.Connection;
+import java.util.List;
 
 import application.ProductInfo;
+import application.State;
 
 public interface Database {
 	/**
@@ -23,6 +25,30 @@ public interface Database {
 	 * @throws DatabaseException if something gone wrong
 	 */
 	public void insertProduct(ProductInfo productInfo) throws DatabaseException;
+	
+	/**
+	 * Fetches all states from database
+	 * 
+	 * @return - list of states
+	 * @throws DatabaseException if something gone wrong
+	 */
+	public List<State> fetchAllStates() throws DatabaseException;
+	
+	/**
+	 * Fetches all products from database
+	 * 
+	 * @return list of products
+	 * @throws DatabaseException if something gone wrong
+	 */
+	public List<ProductInfo> fetchAllProducts() throws DatabaseException;
+	
+	/**
+	 * Fetches all category names from database
+	 * 
+	 * @return list of category names
+	 * @throws DatabaseException if something gone wrong
+	 */
+	public List<String> fetchAllCategoryNames() throws DatabaseException;
 	
 	/**
 	 * Returns Connection object to perform various tasks not provided by this interface

@@ -5,9 +5,16 @@ import java.io.RandomAccessFile;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import application.CategoryTax;
+import application.ProductCategory;
 import application.ProductInfo;
+import application.State;
 
 public class SQLiteDatabase implements Database {
 	private final Connection connection;
@@ -58,6 +65,79 @@ public class SQLiteDatabase implements Database {
 		}
 	}
 
+	@Override
+	public List<State> fetchAllStates() throws DatabaseException {
+		String sql = "SELECT name, base_tax, groceries_tax, prepared_food_tax, prescription_drug_tax, nonprescription_drug_tax, clothing_tax, intangibles_tax FROM state";
+		List<State> list = new ArrayList<State>();
+		
+		try {
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			
+			while (resultSet.next()) {
+				String name = resultSet.getString(1);
+				double baseTax = resultSet.getDouble(2);
+				CategoryTax categoryTax = new CategoryTax(resultSet.getDouble(3),
+														  resultSet.getDouble(4),
+														  resultSet.getDouble(5),
+														  resultSet.getDouble(6),
+														  resultSet.getDouble(7),
+														  resultSet.getDouble(8));
+				
+				list.add(new State(name, baseTax, categoryTax));
+			}
+			
+		} catch (SQLException e) {
+			throw new DatabaseException(e.getMessage());
+		}
+		
+		return list;
+	}
+	
+	@Override
+	public List<ProductInfo> fetchAllProducts() throws DatabaseException {
+		String sql = "SELECT name, category, price FROM product";
+		List<ProductInfo> list = new ArrayList<ProductInfo>();
+		
+		try {
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			
+			while (resultSet.next()) {
+				String name = resultSet.getString(1);
+				ProductCategory category = ProductCategory.values()[resultSet.getInt(2) - 1];
+				double price = resultSet.getDouble(3);
+				
+				list.add(new ProductInfo(name, category, price));
+			}
+			
+		} catch (SQLException e) {
+			throw new DatabaseException(e.getMessage());
+		}
+		
+		return list;
+	}
+	
+	@Override
+	public List<String> fetchAllCategoryNames() throws DatabaseException {
+		String sql = "SELECT name FROM category";
+		List<String> list = new ArrayList<String>();
+		
+		try {
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			
+			while (resultSet.next()) {
+				list.add(resultSet.getString(1));
+			}
+			
+		} catch (SQLException e) {
+			throw new DatabaseException(e.getMessage());
+		}
+		
+		return list;
+	}
+	
 	@Override
 	public Connection getConnection() {
 		return connection;
