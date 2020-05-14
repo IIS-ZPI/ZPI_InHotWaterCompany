@@ -70,9 +70,8 @@ public class SQLiteDatabase implements Database {
 		String sql = "SELECT name, base_tax, groceries_tax, prepared_food_tax, prescription_drug_tax, nonprescription_drug_tax, clothing_tax, intangibles_tax FROM state";
 		List<State> list = new ArrayList<State>();
 		
-		try {
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(sql);
+		try (Statement statement = connection.createStatement();
+			 ResultSet resultSet = statement.executeQuery(sql)) {
 			
 			while (resultSet.next()) {
 				String name = resultSet.getString(1);
@@ -99,9 +98,8 @@ public class SQLiteDatabase implements Database {
 		String sql = "SELECT name, category, price FROM product";
 		List<ProductInfo> list = new ArrayList<ProductInfo>();
 		
-		try {
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(sql);
+		try (Statement statement = connection.createStatement();
+			 ResultSet resultSet = statement.executeQuery(sql)) {
 			
 			while (resultSet.next()) {
 				String name = resultSet.getString(1);
@@ -123,9 +121,8 @@ public class SQLiteDatabase implements Database {
 		String sql = "SELECT name FROM category";
 		List<String> list = new ArrayList<String>();
 		
-		try {
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(sql);
+		try (Statement statement = connection.createStatement();
+			 ResultSet resultSet = statement.executeQuery(sql)) {
 			
 			while (resultSet.next()) {
 				list.add(resultSet.getString(1));
