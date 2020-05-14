@@ -68,7 +68,7 @@ public class SQLiteDatabase implements Database {
 	@Override
 	public List<State> fetchAllStates() throws DatabaseException {
 		String sql = "SELECT name, base_tax, groceries_tax, prepared_food_tax, prescription_drug_tax, nonprescription_drug_tax, clothing_tax, intangibles_tax FROM state";
-		List<State> list = new ArrayList<State>();
+		List<State> list = new ArrayList<>();
 		
 		try (Statement statement = connection.createStatement();
 			 ResultSet resultSet = statement.executeQuery(sql)) {
@@ -96,7 +96,7 @@ public class SQLiteDatabase implements Database {
 	@Override
 	public List<ProductInfo> fetchAllProducts() throws DatabaseException {
 		String sql = "SELECT name, category, price FROM product";
-		List<ProductInfo> list = new ArrayList<ProductInfo>();
+		List<ProductInfo> list = new ArrayList<>();
 		
 		try (Statement statement = connection.createStatement();
 			 ResultSet resultSet = statement.executeQuery(sql)) {
@@ -119,7 +119,7 @@ public class SQLiteDatabase implements Database {
 	@Override
 	public List<String> fetchAllCategoryNames() throws DatabaseException {
 		String sql = "SELECT name FROM category";
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		
 		try (Statement statement = connection.createStatement();
 			 ResultSet resultSet = statement.executeQuery(sql)) {
