@@ -17,7 +17,7 @@ public class FXTests extends ApplicationTest {
     Text warningText;
     TextField searchProductTextField;
     TextField searchStateTextField;
-    TextField wholesaleTextField;
+    TextField priceTextField;
     TextField marginTextField;
     TextField priceWithoutTaxTextField;
 
@@ -26,9 +26,9 @@ public class FXTests extends ApplicationTest {
         Main main = new Main();
         ((Application) main).start(stage);
         warningText = find("#warning");
-        searchProductTextField = find("#searchProduct");
-        searchStateTextField = find("#searchState");
-        wholesaleTextField = find("#wholesalePriceTextField");
+        searchProductTextField = find("#searchProductTextField");
+        searchStateTextField = find("#searchStateTextField");
+        priceTextField = find("#priceTextField");
         marginTextField = find("#marginTextField");
         priceWithoutTaxTextField = find("#priceWithoutTaxTextField");
     }
@@ -60,7 +60,7 @@ public class FXTests extends ApplicationTest {
 
     @Test
     public void warningText_OnlyWholesale_EnterAllData() {
-        wholesaleTextField.setText("ExampleData");
+        priceTextField.setText("ExampleData");
 
         clickOn("#checkButton");
 
@@ -71,7 +71,7 @@ public class FXTests extends ApplicationTest {
     public void warningText_wholesaleIsString_IncorrectPrice() {
         searchProductTextField.setText("ExampleData");
         searchStateTextField.setText("ExampleData");
-        wholesaleTextField.setText("ExampleData");
+        priceTextField.setText("ExampleData");
 
         clickOn("#checkButton");
 
@@ -82,7 +82,7 @@ public class FXTests extends ApplicationTest {
     public void warningText_wholesaleIsNegative_IncorrectPrice() {
         searchProductTextField.setText("ExampleData");
         searchStateTextField.setText("ExampleData");
-        wholesaleTextField.setText("-10");
+        priceTextField.setText("-10");
 
         clickOn("#checkButton");
 
@@ -93,7 +93,7 @@ public class FXTests extends ApplicationTest {
     public void warningText_ProductNotInDataBase_ProductNotFound() {
         searchProductTextField.setText("ExampleData");
         searchStateTextField.setText("ExampleData");
-        wholesaleTextField.setText("10");
+        priceTextField.setText("10");
 
         clickOn("#checkButton");
 
@@ -104,7 +104,7 @@ public class FXTests extends ApplicationTest {
     public void warningText_StateNotInDataBase_StateNotFound() {
         searchProductTextField.setText("Oxycodone");
         searchStateTextField.setText("ExampleData");
-        wholesaleTextField.setText("10");
+        priceTextField.setText("10");
 
         clickOn("#checkButton");
 
@@ -125,7 +125,7 @@ public class FXTests extends ApplicationTest {
     public void marginTextField_isNotEmpty_True() {
         searchProductTextField.setText("Oxycodone");
         searchStateTextField.setText("Alaska");
-        wholesaleTextField.setText("10");
+        priceTextField.setText("10");
 
         clickOn("#checkButton");
 
@@ -146,7 +146,7 @@ public class FXTests extends ApplicationTest {
     public void priceWithoutTaxTextField_isNotEmpty_True() {
         searchProductTextField.setText("Oxycodone");
         searchStateTextField.setText("Alaska");
-        wholesaleTextField.setText("10");
+        priceTextField.setText("10");
 
         clickOn("#checkButton");
 
