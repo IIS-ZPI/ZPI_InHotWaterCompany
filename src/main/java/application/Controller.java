@@ -81,23 +81,21 @@ public class Controller implements Initializable {
         } else {
             if (validatePrice(priceString)) {
                 double price = Double.parseDouble(priceString);
-                ProductInfo productInfo = findProduct(productString);
-                if (productInfo == null) {
-                    warning.setText("Product not found");
-                    clearAllOutputField();
-                } else {
-                    State state = findState(stateString);
-                    if (state == null) {
-                        warning.setText("State not found");
+                if (validatePrice(logisticCostsString)) {
+                    double logisticCosts = Double.parseDouble(logisticCostsString);
+
+                    ProductInfo productInfo = findProduct(productString);
+                    if (productInfo == null) {
+                        warning.setText("Product not found");
                         clearAllOutputField();
                     } else {
-                        if (!validatePrice(logisticCostsString)) {
-                            warning.setText("Incorrect Logistic cost");
+                        State state = findState(stateString);
+                        if (state == null) {
+                            warning.setText("State not found");
                             clearAllOutputField();
                         } else {
                             warning.setText("");
                             double priceWithoutTax = calculateWithoutTax(price, productInfo, state);
-                            double logisticCosts = Double.parseDouble(logisticCostsString);
                             priceWithoutTaxTextField.setText(new DecimalFormat("##.##").format(priceWithoutTax));
                             Double margin = calculateMargin(priceWithoutTax, productInfo, logisticCosts);
                             marginTextField.setText(new DecimalFormat("##.##").format(margin));
@@ -105,6 +103,9 @@ public class Controller implements Initializable {
                             tableView.setItems(getMarginForAllstateList(stateList, productInfo, price));
                         }
                     }
+                } else {
+                    warning.setText("Incorrect logistic costs");
+                    clearAllOutputField();
                 }
             } else {
                 warning.setText("Incorrect price");
