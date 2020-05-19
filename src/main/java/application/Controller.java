@@ -104,7 +104,7 @@ public class Controller implements Initializable {
                         }
                     }
                 } else {
-                    warning.setText("Incorrect Logistic cost");
+                    warning.setText("Incorrect logistic costs");
                     clearAllOutputField();
                 }
             } else {
