@@ -28,9 +28,9 @@ public class ControllerTests {
     @Test
     public void calculateMargin_ReturnedSpecifiedValue() {
         double priceWithoutTax = 1.98;
-
-        double margin = controller.calculateMargin(priceWithoutTax, apple);
-        double expectedMargin = priceWithoutTax - apple.getWholesalePrice();
+        double logisticCosts = 1;
+        double margin = controller.calculateMargin(priceWithoutTax, apple,logisticCosts);
+        double expectedMargin = priceWithoutTax - apple.getWholesalePrice() - logisticCosts;
 
         assertThat(margin, equalTo(expectedMargin));
     }

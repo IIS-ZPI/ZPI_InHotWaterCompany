@@ -38,6 +38,8 @@ public class Controller implements Initializable {
     @FXML
     private TextField wholesalePriceTextField;
     @FXML
+    private TextField logisticCostsTextField;
+    @FXML
     private TableView<MarginForAllState> tableView;
     @FXML
     private TableColumn<MarginForAllState, String> stateColumn;
@@ -72,7 +74,8 @@ public class Controller implements Initializable {
         String priceString = priceTextField.getText();
         String stateString = searchStateTextField.getText();
         String productString = searchProductTextField.getText();
-        if (priceString.isEmpty() || stateString.isEmpty() || productString.isEmpty()) {
+        String logisticCostsString = logisticCostsTextField.getText();
+        if (priceString.isEmpty() || stateString.isEmpty() || productString.isEmpty() || logisticCostsString.isEmpty()) {
             warning.setText("Enter all data");
             clearAllOutputField();
         } else {
@@ -88,13 +91,19 @@ public class Controller implements Initializable {
                         warning.setText("State not found");
                         clearAllOutputField();
                     } else {
-                        warning.setText("");
-                        double priceWithoutTax = calculateWithoutTax(price, productInfo, state);
-                        priceWithoutTaxTextField.setText(new DecimalFormat("##.##").format(priceWithoutTax));
-                        Double margin = calculateMargin(priceWithoutTax, productInfo);
-                        marginTextField.setText(new DecimalFormat("##.##").format(margin));
+                        if (!validatePrice(logisticCostsString)) {
+                            warning.setText("Incorrect Logistic cost");
+                            clearAllOutputField();
+                        } else {
+                            warning.setText("");
+                            double priceWithoutTax = calculateWithoutTax(price, productInfo, state);
+                            double logisticCosts = Double.parseDouble(logisticCostsString);
+                            priceWithoutTaxTextField.setText(new DecimalFormat("##.##").format(priceWithoutTax));
+                            Double margin = calculateMargin(priceWithoutTax, productInfo, logisticCosts);
+                            marginTextField.setText(new DecimalFormat("##.##").format(margin));
 
-                        tableView.setItems(getMarginForAllstateList(stateList, productInfo, price));
+                            tableView.setItems(getMarginForAllstateList(stateList, productInfo, price));
+                        }
                     }
                 }
             } else {
@@ -108,8 +117,8 @@ public class Controller implements Initializable {
         return price / ((100.0 + getTaxFromCategory(productInfo, state)) / 100);
     }
 
-    double calculateMargin(double priceWithoutTax, ProductInfo productInfo) {
-        return priceWithoutTax - productInfo.getWholesalePrice();
+    double calculateMargin(double priceWithoutTax, ProductInfo productInfo, double logisticCosts) {
+        return priceWithoutTax - productInfo.getWholesalePrice() - logisticCosts;
     }
 
     boolean validatePrice(String price) {
@@ -200,7 +209,7 @@ public class Controller implements Initializable {
 
         for (State s : stateList) {
             double priceWithoutTax = calculateWithoutTax(price, productInfo, s);
-            double margin = calculateMargin(priceWithoutTax, productInfo);
+            double margin = calculateMargin(priceWithoutTax, productInfo, 0);
             marginForAllStateObservableList.add(new MarginForAllState(s.getState(), new DecimalFormat("##.##").format(margin)));
         }
 
