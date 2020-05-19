@@ -2,6 +2,7 @@ package application;
 
 import javafx.collections.ObservableList;
 import org.junit.Test;
+import utils.CategoryResolver;
 
 import java.util.ArrayList;
 
@@ -100,7 +101,9 @@ public class ControllerTests {
         states.add(new State("California", 7.25, new CategoryTax(0, 7.25, 0, 7.25, 7.25, 0)));
         states.add(new State("Delaware", 0, new CategoryTax(0, 0, 0, 0, 0, 0)));
 
-        ObservableList<MarginForAllState> observableList = controller.getMarginForAllstateList(states, apple, 5);
+        ProductInfo orange = new ProductInfo("orange", ProductCategory.GROCERIES, 0.24);
+
+        ObservableList<MarginForAllState> observableList = controller.getMarginForAllstateList(states, orange, 5);
 
         assertThat(observableList.get(0).getMargin(), equalTo("4,57"));
         assertThat(observableList.get(1).getMargin(), equalTo("4,76"));
