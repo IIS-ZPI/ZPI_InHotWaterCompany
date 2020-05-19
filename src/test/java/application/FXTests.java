@@ -21,6 +21,7 @@ public class FXTests extends ApplicationTest {
     TextField marginTextField;
     TextField priceWithoutTaxTextField;
     TextField logisticCostsTextField;
+    TextField wholesalePriceTextField;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -33,6 +34,7 @@ public class FXTests extends ApplicationTest {
         marginTextField = find("#marginTextField");
         priceWithoutTaxTextField = find("#priceWithoutTaxTextField");
         logisticCostsTextField = find("#logisticCostsTextField");
+        wholesalePriceTextField = find("#wholesalePriceTextField");
     }
 
     @Test
@@ -192,6 +194,24 @@ public class FXTests extends ApplicationTest {
         clickOn("#checkButton");
 
         assertThat(priceWithoutTaxTextField.getText(), Matchers.not(Matchers.emptyString()));
+    }
+
+    @Test
+    public void wholesalePriceTextField_ExampleData_NotFound() {
+        searchProductTextField.setText("ExampleData");
+
+        clickOn("#checkProductWholesalePriceButton");
+
+        assertThat(wholesalePriceTextField.getText(), equalTo("Not found"));
+    }
+
+    @Test
+    public void wholesalePriceTextField_NoData_NotFound() {
+        searchProductTextField.setText("");
+
+        clickOn("#checkProductWholesalePriceButton");
+
+        assertThat(wholesalePriceTextField.getText(), equalTo("Not found"));
     }
 
     public <T extends Node> T find(final String query) {
