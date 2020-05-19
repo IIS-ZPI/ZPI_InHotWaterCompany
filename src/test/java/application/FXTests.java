@@ -20,6 +20,7 @@ public class FXTests extends ApplicationTest {
     TextField priceTextField;
     TextField marginTextField;
     TextField priceWithoutTaxTextField;
+    TextField logisticCostsTextField;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -31,12 +32,13 @@ public class FXTests extends ApplicationTest {
         priceTextField = find("#priceTextField");
         marginTextField = find("#marginTextField");
         priceWithoutTaxTextField = find("#priceWithoutTaxTextField");
+        logisticCostsTextField = find("#logisticCostsTextField");
     }
 
     @Test
-    public void warningText_EmptyProductStateWholesale_EnterAllData() {
+    public void warningText_NoInputData_EnterAllData() {
         clickOn("#checkButton");
-        
+
         assertThat(warningText.getText(), equalTo("Enter all data"));
     }
 
@@ -68,14 +70,36 @@ public class FXTests extends ApplicationTest {
     }
 
     @Test
+    public void warningText_OnlyLogisticCosts_EnterAllData() {
+        logisticCostsTextField.setText("ExampleData");
+
+        clickOn("#checkButton");
+
+        assertThat(warningText.getText(), equalTo("Enter all data"));
+    }
+
+    @Test
     public void warningText_wholesaleIsString_IncorrectPrice() {
         searchProductTextField.setText("ExampleData");
         searchStateTextField.setText("ExampleData");
         priceTextField.setText("ExampleData");
+        logisticCostsTextField.setText("10");
 
         clickOn("#checkButton");
 
         assertThat(warningText.getText(), equalTo("Incorrect price"));
+    }
+
+    @Test
+    public void warningText_logisticCostsAreString_IncorrectLogisticCosts() {
+        searchProductTextField.setText("ExampleData");
+        searchStateTextField.setText("ExampleData");
+        priceTextField.setText("10");
+        logisticCostsTextField.setText("ExampleData");
+
+        clickOn("#checkButton");
+
+        assertThat(warningText.getText(), equalTo("Incorrect logistic costs"));
     }
 
     @Test
@@ -83,6 +107,7 @@ public class FXTests extends ApplicationTest {
         searchProductTextField.setText("ExampleData");
         searchStateTextField.setText("ExampleData");
         priceTextField.setText("-10");
+        logisticCostsTextField.setText("ExampleData");
 
         clickOn("#checkButton");
 
@@ -90,10 +115,23 @@ public class FXTests extends ApplicationTest {
     }
 
     @Test
+    public void warningText_logisticCostsAreNegative_IncorrectLogisticCosts() {
+        searchProductTextField.setText("ExampleData");
+        searchStateTextField.setText("ExampleData");
+        priceTextField.setText("10");
+        logisticCostsTextField.setText("-10");
+
+        clickOn("#checkButton");
+
+        assertThat(warningText.getText(), equalTo("Incorrect logistic costs"));
+    }
+
+    @Test
     public void warningText_ProductNotInDataBase_ProductNotFound() {
         searchProductTextField.setText("ExampleData");
         searchStateTextField.setText("ExampleData");
         priceTextField.setText("10");
+        logisticCostsTextField.setText("10");
 
         clickOn("#checkButton");
 
@@ -105,6 +143,7 @@ public class FXTests extends ApplicationTest {
         searchProductTextField.setText("Oxycodone");
         searchStateTextField.setText("ExampleData");
         priceTextField.setText("10");
+        logisticCostsTextField.setText("10");
 
         clickOn("#checkButton");
 
@@ -126,6 +165,7 @@ public class FXTests extends ApplicationTest {
         searchProductTextField.setText("Oxycodone");
         searchStateTextField.setText("Alaska");
         priceTextField.setText("10");
+        logisticCostsTextField.setText("10");
 
         clickOn("#checkButton");
 
@@ -147,6 +187,7 @@ public class FXTests extends ApplicationTest {
         searchProductTextField.setText("Oxycodone");
         searchStateTextField.setText("Alaska");
         priceTextField.setText("10");
+        logisticCostsTextField.setText("10");
 
         clickOn("#checkButton");
 
