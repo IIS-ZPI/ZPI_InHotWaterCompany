@@ -1,6 +1,9 @@
 package application;
 
+import javafx.collections.ObservableList;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -9,8 +12,7 @@ public class ControllerTests {
 
     Controller controller = new Controller();
 
-    ProductInfo apple = new ProductInfo("apple", "groceries", 5.0);
-    //ProductInfo apple = new ProductInfo("apple", ProductCategory.GROCERIES, 5.0);
+    ProductInfo apple = new ProductInfo("apple", ProductCategory.GROCERIES, 5.0);
     CategoryTax categories = new CategoryTax(1, 1, 1, 1, 1, 1);
     State alaska = new State("Alaska", 0.5, categories);
 
@@ -29,7 +31,7 @@ public class ControllerTests {
     public void calculateMargin_ReturnedSpecifiedValue() {
         double priceWithoutTax = 1.98;
         double logisticCosts = 1;
-        double margin = controller.calculateMargin(priceWithoutTax, apple,logisticCosts);
+        double margin = controller.calculateMargin(priceWithoutTax, apple, logisticCosts);
         double expectedMargin = priceWithoutTax - apple.getWholesalePrice() - logisticCosts;
 
         assertThat(margin, equalTo(expectedMargin));
@@ -71,12 +73,37 @@ public class ControllerTests {
     }
 
     @Test
-    public void getTaxCategory_ReturnedSpecifiedValue(){
+    public void getTaxCategory_ReturnedSpecifiedValue() {
         double expectedTaxForAppleInAlaska = alaska.getCategory().getGroceries();
         double taxForAppleInAlaska = controller.getTaxFromCategory(apple, alaska);
 
         assertThat(taxForAppleInAlaska, equalTo(expectedTaxForAppleInAlaska));
     }
 
+    @Test
+    public void getMarginForAllstateList_ReturnedListWithThreeElements() {
 
+        ArrayList<State> states = new ArrayList<>();
+        states.add(new State("Alabama", 4, new CategoryTax(4, 4, 0, 4, 4, 4)));
+        states.add(new State("California", 7.25, new CategoryTax(0, 7.25, 0, 7.25, 7.25, 0)));
+        states.add(new State("Delaware", 0, new CategoryTax(0, 0, 0, 0, 0, 0)));
+
+        ObservableList<MarginForAllState> observableList = controller.getMarginForAllstateList(states, apple, 5);
+
+        assertThat(observableList.size(), equalTo(3));
+    }
+
+    @Test
+    public void getMarginForAllstateList_ReturnedSpecifiedList() {
+        ArrayList<State> states = new ArrayList<>();
+        states.add(new State("Alabama", 4, new CategoryTax(4, 4, 0, 4, 4, 4)));
+        states.add(new State("California", 7.25, new CategoryTax(0, 7.25, 0, 7.25, 7.25, 0)));
+        states.add(new State("Delaware", 0, new CategoryTax(0, 0, 0, 0, 0, 0)));
+
+        ObservableList<MarginForAllState> observableList = controller.getMarginForAllstateList(states, apple, 5);
+
+        assertThat(observableList.get(0).getMargin(), equalTo("4,57"));
+        assertThat(observableList.get(1).getMargin(), equalTo("4,76"));
+        assertThat(observableList.get(2).getMargin(), equalTo("4,76"));
+    }
 }
