@@ -35,6 +35,6 @@ steps:
     target: '$(Build.SourceVersion)'
     tagSource: 'userSpecifiedTag'
     tag: 'v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
-    assets: '$(Build.ArtifactSatgingDirectory)/target/*.jar'
+    assets: '/home/vsts/work/1/s/target/*.jar'
     changeLogCompareToRelease: 'lastFullRelease'
     changeLogType: 'commitBased'
