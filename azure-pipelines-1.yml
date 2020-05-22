@@ -4,7 +4,9 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 trigger:
-- master
+  branches:
+    include:
+    - master
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -35,6 +37,6 @@ steps:
     target: '$(Build.SourceVersion)'
     tagSource: 'userSpecifiedTag'
     tag: 'v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
-    assets: '/home/vsts/work/1/s/target/*.jar'
+    assets: '/home/vsts/work/1/s/target/*s.jar'
     changeLogCompareToRelease: 'lastFullRelease'
     changeLogType: 'commitBased'
