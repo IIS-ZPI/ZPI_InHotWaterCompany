@@ -11,6 +11,14 @@ trigger:
     - develop
     - develop/*
 
+pr:
+  branches:
+    include:
+    - master
+    exclude:
+      - develop
+      - develop/*
+
 pool:
   vmImage: 'ubuntu-latest'
 
