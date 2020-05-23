@@ -17,8 +17,8 @@
                 </configuration>
             </plugin><plugin>
         <artifactId>maven-assembly-plugin</artifactId>
-    <executions>
-      <execution>
+        <executions>
+           <execution>
         <phase>package</phase>
         <goals>
           <goal>single</goal>
