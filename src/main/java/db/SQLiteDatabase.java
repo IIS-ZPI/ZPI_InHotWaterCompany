@@ -76,12 +76,12 @@ public class SQLiteDatabase implements Database {
 			while (resultSet.next()) {
 				String name = resultSet.getString(1);
 				double baseTax = resultSet.getDouble(2);
-				CategoryTax categoryTax = new CategoryTax(resultSet.getDouble(3),
-														  resultSet.getDouble(4),
-														  resultSet.getDouble(5),
-														  resultSet.getDouble(6),
-														  resultSet.getDouble(7),
-														  resultSet.getDouble(8));
+				CategoryTax categoryTax = new CategoryTax((resultSet.getDouble(3) < 0) ? baseTax : resultSet.getDouble(3),
+														  (resultSet.getDouble(4) < 0) ? baseTax : resultSet.getDouble(4),
+														  (resultSet.getDouble(5) < 0) ? baseTax : resultSet.getDouble(5),
+														  (resultSet.getDouble(6) < 0) ? baseTax : resultSet.getDouble(6),
+														  (resultSet.getDouble(7) < 0) ? baseTax : resultSet.getDouble(7),
+														  (resultSet.getDouble(8) < 0) ? baseTax : resultSet.getDouble(8));
 				
 				list.add(new State(name, baseTax, categoryTax));
 			}
