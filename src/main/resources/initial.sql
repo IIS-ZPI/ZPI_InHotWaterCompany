@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS state;
 DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS product;
+DROP TABLE IF EXISTS logistic_cost;
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
 
@@ -26,6 +27,12 @@ CREATE TABLE product (
 	name		TEXT		NOT NULL,
 	category	INTEGER		REFERENCES category(id),
 	price		REAL		DEFAULT 0.0
+);
+
+CREATE TABLE logistic_cost (
+	id			INTEGER		PRIMARY KEY AUTOINCREMENT,
+	state		INTEGER		REFERENCES state(id),
+	value		REAL		DEFAULT 0.0
 );
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
@@ -92,3 +99,5 @@ INSERT INTO state(name, base_tax, groceries_tax, prepared_food_tax, prescription
 	('West Virginia',			6.0,	0.0,	-1.0,	0.0,	-1.0,	-1.0,	0.0),
 	('Wisconsin',				5.0,	0.0,	-1.0,	0.0,	-1.0,	-1.0,	-1.0),
 	('Wyoming',					4.0,	0.0,	-1.0,	0.0,	-1.0,	-1.0,	-1.0);
+
+INSERT INTO logistic_cost(state) SELECT id FROM state;
