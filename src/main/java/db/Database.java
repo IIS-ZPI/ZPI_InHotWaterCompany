@@ -51,6 +51,15 @@ public interface Database {
 	public List<String> fetchAllCategoryNames() throws DatabaseException;
 	
 	/**
+	 * Updates logistic costs for specified state
+	 * 
+	 * @param stateName - state name to update
+	 * @param logisticCost - new logistic costs for state
+	 * @throws DatabaseException if something gone wrong
+	 */
+	public void updateLogisticCost(String stateName, double logisticCost) throws DatabaseException;
+	
+	/**
 	 * Returns Connection object to perform various tasks not provided by this interface
 	 * 
 	 * @return Connection object
