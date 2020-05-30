@@ -19,6 +19,7 @@ import db.SQLiteDatabase;
 
 import java.io.File;
 import java.io.IOException;
+
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -76,6 +77,21 @@ public class Controller implements Initializable {
     		e.printStackTrace();	// to change
     	}
         
+        stateList.add(new State("Alabama", 4, new CategoryTax(4, 4, 0, 4, 4, 4)));
+        stateList.add(new State("Alaska", 0, new CategoryTax(0, 0, 0, 0, 0, 0)));
+        stateList.add(new State("Arizona", 5.6, new CategoryTax(0, 5.6, 0, 5.6, 5.6, 5.6)));
+        stateList.add(new State("Arkansas", 6.5, new CategoryTax(0.125, 6.5, 0, 6.5, 6.5, 0)));
+        stateList.add(new State("California", 7.25, new CategoryTax(0, 7.25, 0, 7.25, 7.25, 0)));
+        stateList.add(new State("Colorado", 2.9, new CategoryTax(0, 2.9, 0, 2.9, 2.9, 2.9)));
+        stateList.add(new State("Connecticut", 6.35, new CategoryTax(0, 6.35, 0, 0, 6.35, 1)));
+        stateList.add(new State("Delaware", 0, new CategoryTax(0, 0, 0, 0, 0, 0)));
+        stateList.forEach(x -> stateListAutoCompletion.add(x.getState()));
+        productInfoList.add(new ProductInfo("apple", "groceries", 0.24));
+        productInfoList.add(new ProductInfo("orange", "groceries", 0.35));
+        productInfoList.add(new ProductInfo("pineapple", "groceries", 0.78));
+        productInfoList.add(new ProductInfo("Oxycodone", "Non-prescription-drug", 16.99));
+        productInfoList.add(new ProductInfo("Fentanyl", "Non-prescription-drug", 13.58));
+        productInfoList.forEach(x -> productListAutoCompletion.add(x.getProduct()));
         TextFields.bindAutoCompletion(searchProductTextField, productListAutoCompletion);
         TextFields.bindAutoCompletion(searchStateTextField, stateListAutoCompletion);
 

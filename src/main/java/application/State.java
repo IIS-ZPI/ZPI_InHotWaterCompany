@@ -16,6 +16,11 @@ public class State {
         this.baseTax = baseTax;
         this.category = category;
         this.logisticCosts = logisticCosts;
+
+    public State(String state, double baseTax, CategoryTax category) {
+        this.state = state;
+        this.baseTax = baseTax;
+        this.category = category;
     }
 
     public CategoryTax getCategory() {
@@ -29,7 +34,7 @@ public class State {
     public double getBaseTax() {
         return baseTax;
     }
-    
+
     public double getLogisticCosts() {
     	return logisticCosts;
     }
