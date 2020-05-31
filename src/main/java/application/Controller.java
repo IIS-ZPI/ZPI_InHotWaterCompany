@@ -9,7 +9,16 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import utils.CSV;
+import utils.CSVLoader;
+
 import org.controlsfx.control.textfield.TextFields;
+
+import db.DatabaseException;
+import db.SQLiteDatabase;
+
+import java.io.File;
+import java.io.IOException;
 
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -48,21 +57,26 @@ public class Controller implements Initializable {
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-        stateList.add(new State("Alabama", 4, new CategoryTax(4, 4, 0, 4, 4, 4)));
-        stateList.add(new State("Alaska", 0, new CategoryTax(0, 0, 0, 0, 0, 0)));
-        stateList.add(new State("Arizona", 5.6, new CategoryTax(0, 5.6, 0, 5.6, 5.6, 5.6)));
-        stateList.add(new State("Arkansas", 6.5, new CategoryTax(0.125, 6.5, 0, 6.5, 6.5, 0)));
-        stateList.add(new State("California", 7.25, new CategoryTax(0, 7.25, 0, 7.25, 7.25, 0)));
-        stateList.add(new State("Colorado", 2.9, new CategoryTax(0, 2.9, 0, 2.9, 2.9, 2.9)));
-        stateList.add(new State("Connecticut", 6.35, new CategoryTax(0, 6.35, 0, 0, 6.35, 1)));
-        stateList.add(new State("Delaware", 0, new CategoryTax(0, 0, 0, 0, 0, 0)));
-        stateList.forEach(x -> stateListAutoCompletion.add(x.getState()));
-        productInfoList.add(new ProductInfo("apple", "groceries", 0.24));
-        productInfoList.add(new ProductInfo("orange", "groceries", 0.35));
-        productInfoList.add(new ProductInfo("pineapple", "groceries", 0.78));
-        productInfoList.add(new ProductInfo("Oxycodone", "Non-prescription-drug", 16.99));
-        productInfoList.add(new ProductInfo("Fentanyl", "Non-prescription-drug", 13.58));
-        productInfoList.forEach(x -> productListAutoCompletion.add(x.getProduct()));
+    	try {
+	    	String path = "/tmp/tax_app.db";	// change to relative, not platform dependent
+	    	boolean databaseExists = new File(path).exists();
+	    	SQLiteDatabase database = new SQLiteDatabase(path);
+	    	
+	    	if (!databaseExists) {
+	    		database.initialize("src/main/resources/initial.sql");
+	    		CSVLoader.load(new CSV("src/test/java/application/products.csv"), database);
+	    	}
+	    	
+	    	stateList.addAll(database.fetchAllStates());
+	    	stateList.forEach(x -> stateListAutoCompletion.add(x.getState()));
+	    	
+	    	productInfoList.addAll(database.fetchAllProducts());
+	    	productInfoList.forEach(x -> productListAutoCompletion.add(x.getProduct()));
+	    	
+    	} catch (DatabaseException | IOException e) {
+    		e.printStackTrace();	// to change
+    	}
+        
         TextFields.bindAutoCompletion(searchProductTextField, productListAutoCompletion);
         TextFields.bindAutoCompletion(searchStateTextField, stateListAutoCompletion);
 

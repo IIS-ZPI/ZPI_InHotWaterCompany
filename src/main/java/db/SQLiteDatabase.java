@@ -67,7 +67,7 @@ public class SQLiteDatabase implements Database {
 
 	@Override
 	public List<State> fetchAllStates() throws DatabaseException {
-		String sql = "SELECT name, base_tax, groceries_tax, prepared_food_tax, prescription_drug_tax, nonprescription_drug_tax, clothing_tax, intangibles_tax FROM state";
+		String sql = "SELECT name, base_tax, groceries_tax, prepared_food_tax, prescription_drug_tax, nonprescription_drug_tax, clothing_tax, intangibles_tax, value FROM state JOIN logistic_cost ON logistic_cost.state = state.id";
 		List<State> list = new ArrayList<>();
 		
 		try (Statement statement = connection.createStatement();
@@ -76,14 +76,16 @@ public class SQLiteDatabase implements Database {
 			while (resultSet.next()) {
 				String name = resultSet.getString(1);
 				double baseTax = resultSet.getDouble(2);
-				CategoryTax categoryTax = new CategoryTax(resultSet.getDouble(3),
-														  resultSet.getDouble(4),
-														  resultSet.getDouble(5),
-														  resultSet.getDouble(6),
-														  resultSet.getDouble(7),
-														  resultSet.getDouble(8));
+				CategoryTax categoryTax = new CategoryTax((resultSet.getDouble(3) < 0) ? baseTax : resultSet.getDouble(3),
+														  (resultSet.getDouble(4) < 0) ? baseTax : resultSet.getDouble(4),
+														  (resultSet.getDouble(5) < 0) ? baseTax : resultSet.getDouble(5),
+														  (resultSet.getDouble(6) < 0) ? baseTax : resultSet.getDouble(6),
+														  (resultSet.getDouble(7) < 0) ? baseTax : resultSet.getDouble(7),
+														  (resultSet.getDouble(8) < 0) ? baseTax : resultSet.getDouble(8));
 				
-				list.add(new State(name, baseTax, categoryTax));
+				double logisticCosts = resultSet.getDouble(9);
+				
+				list.add(new State(name, baseTax, categoryTax, logisticCosts));
 			}
 			
 		} catch (SQLException e) {
@@ -133,6 +135,20 @@ public class SQLiteDatabase implements Database {
 		}
 		
 		return list;
+	}
+	
+	@Override
+	public void updateLogisticCost(String stateName, double logisticCost) throws DatabaseException {
+		String sql = "UPDATE logistic_cost SET value = ? WHERE state = ( SELECT id FROM state WHERE name = ? )";
+		
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+			preparedStatement.setDouble(1, logisticCost);
+			preparedStatement.setString(2, stateName);
+			preparedStatement.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new DatabaseException(e.getMessage());
+		}
 	}
 	
 	@Override
