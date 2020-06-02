@@ -1,6 +1,9 @@
 package application;
 
+import javafx.collections.ObservableList;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -76,4 +79,39 @@ public class ControllerTests {
 
         assertThat(taxForAppleInAlaska, equalTo(expectedTaxForAppleInAlaska));
     }
+
+    @Test
+    public void getDataForAllstateList_ReturnedListWithThreeElements() {
+
+        ArrayList<State> states = new ArrayList<>();
+        states.add(new State("Alabama", 4, new CategoryTax(4, 4, 0, 4, 4, 4), 1));
+        states.add(new State("California", 7.25, new CategoryTax(0, 7.25, 0, 7.25, 7.25, 0), 2));
+        states.add(new State("Delaware", 0, new CategoryTax(0, 0, 0, 0, 0, 0), 3));
+
+        ObservableList<DataInTable> observableList = controller.getDataForAllStateList(states.get(0), states, apple, 5);
+
+        assertThat(observableList.size(), equalTo(3));
+    }
+
+    @Test
+    public void getDataForAllstateList_ReturnedSpecifiedElement() {
+        ArrayList<State> states = new ArrayList<>();
+        states.add(new State("Alabama", 4, new CategoryTax(4, 4, 0, 4, 4, 4), 1.99));
+        ProductInfo orange = new ProductInfo("orange", ProductCategory.GROCERIES, 0.24);
+
+        ObservableList<DataInTable> observableList = controller.getDataForAllStateList(states.get(0), states, orange, 5);
+        DataInTable dataInTable = observableList.get(0);
+
+        String expectedState = "Alabama";
+        String expectedPriceWithoutTax = "4.81";
+        String expectedMargin = "2.58";
+        String expectedLogisticCost = "1.99";
+
+        assertThat(dataInTable.getState(), equalTo(expectedState));
+        assertThat(dataInTable.getPriceWithoutTax(), equalTo(expectedPriceWithoutTax));
+        assertThat(dataInTable.getMargin(), equalTo(expectedMargin));
+        assertThat(dataInTable.getLogisticCost(), equalTo(expectedLogisticCost));
+
+    }
+
 }

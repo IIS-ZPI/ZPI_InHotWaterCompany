@@ -244,6 +244,6 @@ public class Controller implements Initializable {
     }
 
     String formatPrice(double price) {
-        return new DecimalFormat("##.##").format(price);
+        return new DecimalFormat("##.##").format(price).replaceAll(",",".");
     }
 }
