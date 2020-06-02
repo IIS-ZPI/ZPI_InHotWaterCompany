@@ -6,11 +6,6 @@ public class State {
     private CategoryTax category;
     private double logisticCosts;
 
-    @Deprecated
-    public State(String state, double baseTax, CategoryTax category) {
-    	this(state, baseTax, category, 0.0);
-    }
-    
     public State(String state, double baseTax, CategoryTax category, double logisticCosts) {
         this.state = state;
         this.baseTax = baseTax;
@@ -29,8 +24,8 @@ public class State {
     public double getBaseTax() {
         return baseTax;
     }
-    
+
     public double getLogisticCosts() {
-    	return logisticCosts;
+        return logisticCosts;
     }
 }

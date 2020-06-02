@@ -101,7 +101,7 @@ public class Controller implements Initializable {
                     } else {
                         warning.setText("");
                         tableView.setItems(getDataForAllStateList(state, stateList, productInfo, price));
-                        customiseFactory(state, stateColumn);
+                        customiseTable(state, stateColumn);
                     }
                 }
             } else {
@@ -147,7 +147,7 @@ public class Controller implements Initializable {
         return true;
     }
 
-    private State findState(String state) {
+    State findState(String state) {
         for (State s : stateList) {
             if (s.getState().toLowerCase().equals(state.toLowerCase()))
                 return s;
@@ -155,7 +155,7 @@ public class Controller implements Initializable {
         return null;
     }
 
-    private ProductInfo findProduct(String product) {
+    ProductInfo findProduct(String product) {
         for (ProductInfo productInfo : productInfoList) {
             if (productInfo.getProduct().toLowerCase().equals(product.toLowerCase()))
                 return productInfo;
@@ -165,23 +165,23 @@ public class Controller implements Initializable {
 
     double getTaxFromCategory(ProductInfo productInfo, State state) {
         double category = -1;
-        switch (productInfo.getCategoryString()) {
-            case "groceries":
+        switch (productInfo.getCategory()) {
+            case GROCERIES:
                 category = state.getCategory().getGroceries();
                 break;
-            case "preparedFood":
+            case PREPARED_FOOD:
                 category = state.getCategory().getPreparedFood();
                 break;
-            case "prescription-drug":
+            case PRESCRIPTION_DRUG:
                 category = state.getCategory().getPrescriptionDrug();
                 break;
-            case "Non-prescription-drug":
+            case NONPRESCRIPTION_DRUG:
                 category = state.getCategory().getNonPrescriptionDrug();
                 break;
-            case "clothing":
+            case CLOTHING:
                 category = state.getCategory().getClothing();
                 break;
-            case "intangibles":
+            case INTANGIBLES:
                 category = state.getCategory().getIntangibles();
                 break;
             default:
@@ -206,13 +206,13 @@ public class Controller implements Initializable {
         ObservableList<DataInTable> dataInTableObservableList = FXCollections.observableArrayList();
         double priceWithoutTax = calculateWithoutTax(price, productInfo, state);
         double margin = calculateMargin(priceWithoutTax, productInfo, state.getLogisticCosts());
-        dataInTableObservableList.add(new DataInTable(state.getState(), new DecimalFormat("##.##").format(priceWithoutTax), new DecimalFormat("##.##").format(margin), String.valueOf(state.getLogisticCosts())));
+        dataInTableObservableList.add(new DataInTable(state.getState(), formatPrice(priceWithoutTax), formatPrice(margin), String.valueOf(state.getLogisticCosts())));
 
         for (State s : stateList) {
             if (!s.equals(state)) {
                 priceWithoutTax = calculateWithoutTax(price, productInfo, s);
                 margin = calculateMargin(priceWithoutTax, productInfo, s.getLogisticCosts());
-                dataInTableObservableList.add(new DataInTable(s.getState(), new DecimalFormat("##.##").format(priceWithoutTax), new DecimalFormat("##.##").format(margin), String.valueOf(s.getLogisticCosts())));
+                dataInTableObservableList.add(new DataInTable(s.getState(), formatPrice(priceWithoutTax), formatPrice(margin), String.valueOf(s.getLogisticCosts())));
             }
         }
         return dataInTableObservableList;
@@ -223,7 +223,7 @@ public class Controller implements Initializable {
         tableView.setItems(null);
     }
 
-    private void customiseFactory(State state, TableColumn<DataInTable, String> col) {
+    void customiseTable(State state, TableColumn<DataInTable, String> col) {
         col.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -241,5 +241,9 @@ public class Controller implements Initializable {
                 }
             }
         });
+    }
+
+    String formatPrice(double price) {
+        return new DecimalFormat("##.##").format(price);
     }
 }

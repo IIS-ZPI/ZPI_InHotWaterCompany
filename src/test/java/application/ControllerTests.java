@@ -9,10 +9,9 @@ public class ControllerTests {
 
     Controller controller = new Controller();
 
-    ProductInfo apple = new ProductInfo("apple", "groceries", 5.0);
-    //ProductInfo apple = new ProductInfo("apple", ProductCategory.GROCERIES, 5.0);
+    ProductInfo apple = new ProductInfo("apple", ProductCategory.GROCERIES, 5.0);
     CategoryTax categories = new CategoryTax(1, 1, 1, 1, 1, 1);
-    State alaska = new State("Alaska", 0.5, categories);
+    State alaska = new State("Alaska", 0.5, categories,0);
 
     @Test
     public void calculateWithoutTax_ReturnedSpecifiedValue() {
