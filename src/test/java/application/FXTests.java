@@ -5,7 +5,6 @@ import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.testfx.framework.junit.ApplicationTest;
 
@@ -18,8 +17,6 @@ public class FXTests extends ApplicationTest {
     TextField searchProductTextField;
     TextField searchStateTextField;
     TextField priceTextField;
-    TextField marginTextField;
-    TextField priceWithoutTaxTextField;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -29,14 +26,12 @@ public class FXTests extends ApplicationTest {
         searchProductTextField = find("#searchProductTextField");
         searchStateTextField = find("#searchStateTextField");
         priceTextField = find("#priceTextField");
-        marginTextField = find("#marginTextField");
-        priceWithoutTaxTextField = find("#priceWithoutTaxTextField");
     }
 
     @Test
     public void warningText_EmptyProductStateWholesale_EnterAllData() {
         clickOn("#checkButton");
-        
+
         assertThat(warningText.getText(), equalTo("Enter all data"));
     }
 
@@ -109,48 +104,6 @@ public class FXTests extends ApplicationTest {
         clickOn("#checkButton");
 
         assertThat(warningText.getText(), equalTo("State not found"));
-    }
-
-    @Test
-    public void marginTextField_isEditable_False() {
-        assertThat(marginTextField.isEditable(), equalTo(false));
-    }
-
-    @Test
-    public void marginTextField_isEmptyOnStart_True() {
-        assertThat(marginTextField.getText(), equalTo(""));
-    }
-
-    @Test
-    public void marginTextField_isNotEmpty_True() {
-        searchProductTextField.setText("Oxycodone");
-        searchStateTextField.setText("Alaska");
-        priceTextField.setText("10");
-
-        clickOn("#checkButton");
-
-        assertThat(marginTextField.getText(), Matchers.not(Matchers.emptyString()));
-    }
-
-    @Test
-    public void priceWithoutTaxTextField_isEditable_False() {
-        assertThat(priceWithoutTaxTextField.isEditable(), equalTo(false));
-    }
-
-    @Test
-    public void priceWithoutTaxTextField_isEmptyOnStart_True() {
-        assertThat(priceWithoutTaxTextField.getText(), equalTo(""));
-    }
-
-    @Test
-    public void priceWithoutTaxTextField_isNotEmpty_True() {
-        searchProductTextField.setText("Oxycodone");
-        searchStateTextField.setText("Alaska");
-        priceTextField.setText("10");
-
-        clickOn("#checkButton");
-
-        assertThat(priceWithoutTaxTextField.getText(), Matchers.not(Matchers.emptyString()));
     }
 
     public <T extends Node> T find(final String query) {
