@@ -66,7 +66,7 @@ public class Controller implements Initializable {
             productInfoList.addAll(database.fetchAllProducts());
             productInfoList.forEach(x -> productListAutoCompletion.add(x.getProduct()));
         } catch (DatabaseException | IOException e) {
-            e.printStackTrace();    // to change
+            e.printStackTrace();
         }
 
         TextFields.bindAutoCompletion(searchProductTextField, productListAutoCompletion);
@@ -232,9 +232,9 @@ public class Controller implements Initializable {
                 TableRow<DataInTable> currentRow = getTableRow();
 
                 if (!isEmpty()) {
-                    if (item.equals(state.getState()))
+                    if (item.equals(state.getState())) {
                         currentRow.setStyle("-fx-background-color:lightgreen");
-                    else {
+                    } else {
                         currentRow.setStyle("-fx-background-color:white");
                         currentRow.setStyle("-fx-text-fill: black");
                     }

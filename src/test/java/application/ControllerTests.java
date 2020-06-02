@@ -11,7 +11,7 @@ public class ControllerTests {
 
     ProductInfo apple = new ProductInfo("apple", ProductCategory.GROCERIES, 5.0);
     CategoryTax categories = new CategoryTax(1, 1, 1, 1, 1, 1);
-    State alaska = new State("Alaska", 0.5, categories,0);
+    State alaska = new State("Alaska", 0.5, categories, 0);
 
     @Test
     public void calculateWithoutTax_ReturnedSpecifiedValue() {
@@ -28,7 +28,7 @@ public class ControllerTests {
     public void calculateMargin_ReturnedSpecifiedValue() {
         double priceWithoutTax = 1.98;
         double logisticCosts = 1;
-        double margin = controller.calculateMargin(priceWithoutTax, apple,logisticCosts);
+        double margin = controller.calculateMargin(priceWithoutTax, apple, logisticCosts);
         double expectedMargin = priceWithoutTax - apple.getWholesalePrice() - logisticCosts;
 
         assertThat(margin, equalTo(expectedMargin));
@@ -70,12 +70,10 @@ public class ControllerTests {
     }
 
     @Test
-    public void getTaxCategory_ReturnedSpecifiedValue(){
+    public void getTaxCategory_ReturnedSpecifiedValue() {
         double expectedTaxForAppleInAlaska = alaska.getCategory().getGroceries();
         double taxForAppleInAlaska = controller.getTaxFromCategory(apple, alaska);
 
         assertThat(taxForAppleInAlaska, equalTo(expectedTaxForAppleInAlaska));
     }
-
-
 }
