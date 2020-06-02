@@ -102,13 +102,16 @@ public class ControllerTests {
         ObservableList<DataInTable> observableList = controller.getDataForAllStateList(states.get(0), states, orange, 5);
         DataInTable dataInTable = observableList.get(0);
 
+        String expectedState = "Alabama";
+        String expectedPriceWithoutTax = "4.81";
         String expectedMargin = "2.58";
         String expectedLogisticCost = "1.99";
-        String expectedState = "Alabama";
 
+        assertThat(dataInTable.getState(), equalTo(expectedState));
+        assertThat(dataInTable.getPriceWithoutTax(), equalTo(expectedPriceWithoutTax));
         assertThat(dataInTable.getMargin(), equalTo(expectedMargin));
         assertThat(dataInTable.getLogisticCost(), equalTo(expectedLogisticCost));
-        assertThat(dataInTable.getState(), equalTo(expectedState));
+
     }
 
 }
