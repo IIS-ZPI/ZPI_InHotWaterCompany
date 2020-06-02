@@ -8,55 +8,42 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="626.0" prefWidth="839.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
    <children>
-      <Button fx:id="checkButton" layoutX="130.0" layoutY="318.0" mnemonicParsing="false" onAction="#onClickCheckButton" prefHeight="26.0" prefWidth="65.0" text="Check" AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="350.0" />
+      <Button fx:id="checkButton" layoutX="125.0" layoutY="313.0" mnemonicParsing="false" onAction="#onClickCheckButton" prefHeight="26.0" prefWidth="65.0" text="Check" AnchorPane.leftAnchor="125.0" AnchorPane.topAnchor="313.0" />
       <Text fx:id="warning" fill="#ff0303" layoutX="30.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="435.7294921875" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="100.0">
          <font>
             <Font size="17.0" />
          </font>
       </Text>
-      <TextField fx:id="searchProductTextField" layoutX="26.0" layoutY="154.0" prefHeight="20.0" prefWidth="165.0" promptText="Product" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="190.0" />
-      <TextField fx:id="searchStateTextField" layoutX="30.0" layoutY="225.0" prefHeight="20.0" prefWidth="165.0" promptText="State" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="230.0" />
-      <TextField fx:id="priceTextField" layoutX="31.0" layoutY="262.0" prefHeight="20.0" prefWidth="165.0" promptText="Price" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="270.0" />
-      <TextField fx:id="marginTextField" alignment="TOP_LEFT" blendMode="SRC_ATOP" depthTest="DISABLE" editable="false" layoutX="294.0" layoutY="194.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="45.0" prefWidth="170.0" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="190.0" />
-      <TextField fx:id="priceWithoutTaxTextField" alignment="TOP_LEFT" blendMode="SRC_ATOP" depthTest="DISABLE" editable="false" layoutX="522.0" layoutY="194.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="45.0" prefWidth="170.0" AnchorPane.leftAnchor="520.0" AnchorPane.topAnchor="190.0" />
-      <Text layoutX="294.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Margin" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="150.0">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Text>
-      <Text layoutX="522.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price without tax" AnchorPane.leftAnchor="520.0" AnchorPane.topAnchor="150.0">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Text>
-      <Text fill="#3c3a3a" layoutX="342.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tax Calculator" textAlignment="CENTER" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="350.0" AnchorPane.topAnchor="30.0">
+      <TextField fx:id="searchProductTextField" layoutX="31.0" layoutY="192.0" prefHeight="20.0" prefWidth="165.0" promptText="Product" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="192.0" />
+      <TextField fx:id="searchStateTextField" layoutX="31.0" layoutY="232.0" prefHeight="20.0" prefWidth="165.0" promptText="State" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="232.0" />
+      <TextField fx:id="priceTextField" layoutX="32.0" layoutY="272.0" prefHeight="20.0" prefWidth="165.0" promptText="Price" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="272.0" />
+      <Text fill="#3c3a3a" layoutX="279.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tax Calculator" textAlignment="CENTER" AnchorPane.leftAnchor="279.0" AnchorPane.rightAnchor="279.0" AnchorPane.topAnchor="30.79931640625">
          <font>
             <Font size="39.0" />
          </font>
       </Text>
-      <TextField fx:id="wholesalePriceTextField" editable="false" layoutX="30.0" layoutY="443.0" prefHeight="26.0" prefWidth="166.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="450.0" />
-      <Button layoutX="215.0" layoutY="443.0" mnemonicParsing="false" onAction="#onClickCheckProductWholesalePrice" text="Check Price" AnchorPane.leftAnchor="215.0" AnchorPane.topAnchor="450.0" />
-      <Text layoutX="30.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click Check Price to see wholesale price of input product" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="410.0" />
-      <Text layoutX="666.0" layoutY="575.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Margin in other state" AnchorPane.leftAnchor="750.0" AnchorPane.topAnchor="150.0">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Text>
-      <TableView fx:id="tableView" layoutX="746.0" layoutY="154.0" prefHeight="293.0" prefWidth="197.0" AnchorPane.leftAnchor="750.0" AnchorPane.topAnchor="190.0">
+      <TextField fx:id="wholesalePriceTextField" editable="false" layoutX="31.0" layoutY="548.0" prefHeight="26.0" prefWidth="166.0" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="548.0" />
+      <Button layoutX="216.0" layoutY="548.0" mnemonicParsing="false" onAction="#onClickCheckProductWholesalePrice" text="Check Price" AnchorPane.leftAnchor="216.0" AnchorPane.topAnchor="548.0" />
+      <Text layoutX="30.0" layoutY="534.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click Check Price to see wholesale price of input product" wrappingWidth="435.7294895388186" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="521.0" />
+      <TableView fx:id="tableView" layoutX="281.0" layoutY="192.0" prefHeight="312.0" prefWidth="471.0" AnchorPane.leftAnchor="281.0" AnchorPane.topAnchor="192.0">
         <columns>
-          <TableColumn fx:id="stateColumn" editable="false" prefWidth="102.0" text="State" />
-          <TableColumn fx:id="marginColumn" editable="false" prefWidth="88.0" sortable="false" text="Margin" />
+          <TableColumn fx:id="stateColumn" editable="false" prefWidth="144.0" text="State" />
+            <TableColumn fx:id="priceWithoutTaxColumn" editable="false" prefWidth="138.0" text="Price without tax" />
+          <TableColumn fx:id="marginColumn" editable="false" prefWidth="78.0" sortable="false" text="Margin" />
+            <TableColumn fx:id="logisticCostColumn" editable="false" prefWidth="100.0" text="Logistic cost" />
         </columns>
       </TableView>
-      <TextField fx:id="logisticCostsTextField" layoutX="505.0" layoutY="444.0" prefHeight="20.0" prefWidth="165.0" promptText="Logistic Cost" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="310.0" />
-      <Text layoutX="30.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter data:" AnchorPane.topAnchor="150.0">
+      <Text layoutX="31.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter data:" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="152.22021484375">
          <font>
             <Font size="17.0" />
          </font>
       </Text>
-      <Text layoutX="750.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Logistic costs are 0$" />
+      <Text layoutX="279.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Informations">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
