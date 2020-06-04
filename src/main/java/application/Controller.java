@@ -101,7 +101,7 @@ public class Controller implements Initializable {
                     } else {
                         warning.setText("");
                         tableView.setItems(getDataForAllStateList(state, stateList, productInfo, price));
-                        customiseTable(state, stateColumn);
+                        customiseTable(marginColumn);
                     }
                 }
             } else {
@@ -204,16 +204,32 @@ public class Controller implements Initializable {
 
     public ObservableList<DataInTable> getDataForAllStateList(State state, List<State> stateList, ProductInfo productInfo, double price) {
         ObservableList<DataInTable> dataInTableObservableList = FXCollections.observableArrayList();
+        int numberOfStateWhereYouLostMoney = 0;
+
         double priceWithoutTax = calculateWithoutTax(price, productInfo, state);
         double margin = calculateMargin(priceWithoutTax, productInfo, state.getLogisticCosts());
-        dataInTableObservableList.add(new DataInTable(state.getState(), formatPrice(priceWithoutTax), formatPrice(margin), String.valueOf(state.getLogisticCosts())));
+        String marginString = formatPrice(margin).equals("-0") ? "0" : formatPrice(margin);
+        if (Double.parseDouble(marginString) < 0) {
+            numberOfStateWhereYouLostMoney++;
+        }
+        dataInTableObservableList.add(new DataInTable(state.getState(), formatPrice(priceWithoutTax), marginString, String.valueOf(state.getLogisticCosts())));
 
         for (State s : stateList) {
             if (!s.equals(state)) {
                 priceWithoutTax = calculateWithoutTax(price, productInfo, s);
                 margin = calculateMargin(priceWithoutTax, productInfo, s.getLogisticCosts());
-                dataInTableObservableList.add(new DataInTable(s.getState(), formatPrice(priceWithoutTax), formatPrice(margin), String.valueOf(s.getLogisticCosts())));
+                marginString = formatPrice(margin).equals("-0") ? "0" : formatPrice(margin);
+                if (Double.parseDouble(marginString) < 0) {
+                    numberOfStateWhereYouLostMoney++;
+                }
+                dataInTableObservableList.add(new DataInTable(s.getState(), formatPrice(priceWithoutTax), marginString, String.valueOf(s.getLogisticCosts())));
             }
+        }
+        if (numberOfStateWhereYouLostMoney > 0) {
+            if (numberOfStateWhereYouLostMoney == 1)
+                warning.setText("Money loss was noted in " + numberOfStateWhereYouLostMoney + " state");
+            else
+                warning.setText("Money loss was noted in " + numberOfStateWhereYouLostMoney + " states");
         }
         return dataInTableObservableList;
     }
@@ -223,7 +239,7 @@ public class Controller implements Initializable {
         tableView.setItems(null);
     }
 
-    void customiseTable(State state, TableColumn<DataInTable, String> col) {
+    void customiseTable(TableColumn<DataInTable, String> col) {
         col.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -232,11 +248,13 @@ public class Controller implements Initializable {
                 TableRow<DataInTable> currentRow = getTableRow();
 
                 if (!isEmpty()) {
-                    if (item.equals(state.getState())) {
-                        currentRow.setStyle("-fx-background-color:lightgreen");
+                    if (item.charAt(0) == '-') {
+                        currentRow.setStyle("-fx-background-color:lightcoral");
+                    } else if (item.length() == 1 && item.charAt(0) == '0') {
+                        currentRow.setStyle("-fx-background-color:yellow");
                     } else {
-                        currentRow.setStyle("-fx-background-color:white");
-                        currentRow.setStyle("-fx-text-fill: black");
+                        currentRow.setStyle("-fx-background-color:lightgreen");
+                        //currentRow.setStyle("-fx-text-fill: black");
                     }
                 }
             }
@@ -244,6 +262,6 @@ public class Controller implements Initializable {
     }
 
     String formatPrice(double price) {
-        return new DecimalFormat("##.##").format(price).replaceAll(",",".");
+        return new DecimalFormat("##.##").format(price).replaceAll(",", ".");
     }
 }
