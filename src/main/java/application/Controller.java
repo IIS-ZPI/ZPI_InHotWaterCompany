@@ -57,7 +57,7 @@ public class Controller implements Initializable {
 
             if (!databaseExists) {
                 database.initialize("src/main/resources/initial.sql");
-                CSVLoader.load(new CSV("src/test/java/application/products.csv"), database);
+                CSVLoader.loadProducts(new CSV("src/test/java/application/products.csv"), database);
             }
 
             stateList.addAll(database.fetchAllStates());
