@@ -1,10 +1,12 @@
 package application;
 
+import application.foreignTransport.ImportCountry;
 import application.product.ProductInfo;
 import db.DatabaseException;
 import db.SQLiteDatabase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -27,7 +29,8 @@ public class Controller implements Initializable {
     private List<ProductInfo> productInfoList = new ArrayList<>();
     private List<String> productListAutoCompletion = new ArrayList<>();
     private List<String> stateListAutoCompletion = new ArrayList<>();
-
+    private List<ImportCountry> importCountryList = new ArrayList<>();
+    private List<String> countryListAutoCompletion = new ArrayList<>();
     @FXML
     private Text warning;
     @FXML
@@ -48,17 +51,27 @@ public class Controller implements Initializable {
     private TableColumn<DataInTable, String> priceWithoutTaxColumn;
     @FXML
     private TableColumn<DataInTable, String> logisticCostColumn;
+    @FXML
+    private TextField searchCountryTextField;
+    @FXML
+    private CheckBox sendAbroadCheckBox;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+
         try {
-            String path = "/tmp/tax_app.db";    // change to relative, not platform dependent
+            String path = "src/main/resources/tax_app.db";
             boolean databaseExists = new File(path).exists();
             SQLiteDatabase database = new SQLiteDatabase(path);
+            File file = new File(path);
+            if(databaseExists)
+                file.delete();
 
             if (!databaseExists) {
                 database.initialize("src/main/resources/initial.sql");
-                CSVLoader.loadProducts(new CSV("src/test/java/application/products.csv"), database);
+                CSVLoader.loadProducts(new CSV("src/main/resources/products.csv"), database);
+                CSVLoader.loadLogisticCosts(new CSV("src/main/resources/US_States_Common_Costs.csv"), database);
+                CSVLoader.loadInternationalTransportationCosts(new CSV("src/main/resources/International Transportation Costs.csv"), database);
             }
 
             stateList.addAll(database.fetchAllStates());
@@ -66,24 +79,56 @@ public class Controller implements Initializable {
 
             productInfoList.addAll(database.fetchAllProducts());
             productInfoList.forEach(x -> productListAutoCompletion.add(x.getProduct()));
+            importCountryList.addAll(database.fetchAllImportCountries());
+            importCountryList.forEach(x -> countryListAutoCompletion.add(x.getName()));
         } catch (DatabaseException | IOException e) {
             e.printStackTrace();
         }
-
         TextFields.bindAutoCompletion(searchProductTextField, productListAutoCompletion);
         TextFields.bindAutoCompletion(searchStateTextField, stateListAutoCompletion);
+        TextFields.bindAutoCompletion(searchCountryTextField, countryListAutoCompletion);
 
         stateColumn.setCellValueFactory(new PropertyValueFactory<>("state"));
         priceWithoutTaxColumn.setCellValueFactory(new PropertyValueFactory<>("priceWithoutTax"));
         marginColumn.setCellValueFactory(new PropertyValueFactory<>("margin"));
         logisticCostColumn.setCellValueFactory(new PropertyValueFactory<>("logisticCost"));
+
+        searchProductTextField.textProperty().addListener((Observable, oldValue, newValue) -> {
+            ProductInfo productInfo = findProduct(newValue);
+            if (productInfo != null) {
+                wholesalePriceTextField.setStyle("-fx-text-fill: black");
+                wholesalePriceTextField.setText(String.valueOf(productInfo.getWholesalePrice()));
+            } else {
+                wholesalePriceTextField.setStyle("-fx-text-fill: red");
+                wholesalePriceTextField.setText("Not found");
+            }
+        });
+        searchCountryTextField.setEditable(false);
+    }
+
+    @FXML
+    void onInputTextChangedDependOnProduct(ActionEvent event) {
+        searchProductTextField.getText();
+    }
+
+    public void checkBoxesOnAction(ActionEvent event) {
+        if (sendAbroadCheckBox.isSelected()) {
+            searchStateTextField.setEditable(false);
+            searchCountryTextField.setEditable(true);
+            searchStateTextField.setText("");
+        } else {
+            searchStateTextField.setEditable(true);
+            searchCountryTextField.setEditable(false);
+            searchCountryTextField.setText("");
+        }
     }
 
     public void onClickCheckButton() {
         String priceString = priceTextField.getText();
         String stateString = searchStateTextField.getText();
         String productString = searchProductTextField.getText();
-        if (priceString.isEmpty() || stateString.isEmpty() || productString.isEmpty()) {
+        String countryString = searchCountryTextField.getText();
+        if (priceString.isEmpty() || productString.isEmpty() || (stateString.isEmpty() && countryString.isEmpty())) {
             warning.setText("Enter all data");
             clearAllOutputField();
         } else {
@@ -95,14 +140,26 @@ public class Controller implements Initializable {
                     warning.setText("Product not found");
                     clearAllOutputField();
                 } else {
-                    State state = findState(stateString);
-                    if (state == null) {
-                        warning.setText("State not found");
-                        clearAllOutputField();
+                    if (sendAbroadCheckBox.isSelected()) {
+                        ImportCountry country = findCountry(countryString);
+                        if (country == null) {
+                            warning.setText("Country not found");
+                            clearAllOutputField();
+                        } else {
+                            warning.setText("");
+                            tableView.setItems(getDataForAllCountryList(country, importCountryList, productInfo, price));
+                            customiseTable(marginColumn);
+                        }
                     } else {
-                        warning.setText("");
-                        tableView.setItems(getDataForAllStateList(state, stateList, productInfo, price));
-                        customiseTable(marginColumn);
+                        State state = findState(stateString);
+                        if (state == null) {
+                            warning.setText("State not found");
+                            clearAllOutputField();
+                        } else {
+                            warning.setText("");
+                            tableView.setItems(getDataForAllStateList(state, stateList, productInfo, price));
+                            customiseTable(marginColumn);
+                        }
                     }
                 }
             } else {
@@ -116,8 +173,37 @@ public class Controller implements Initializable {
         return price / ((100.0 + getTaxFromCategory(productInfo, state)) / 100);
     }
 
-    double calculateMargin(double priceWithoutTax, ProductInfo productInfo, double logisticCosts) {
+    double calculateMarginInState(double priceWithoutTax, ProductInfo productInfo, double logisticCosts) {
         return priceWithoutTax - productInfo.getWholesalePrice() - logisticCosts;
+    }
+
+    double calculateMarginInOtherCountry(double price, ProductInfo productInfo, ImportCountry importCountry) {
+        double finalMargin = 0;
+        double transportFee = changeToActualCurrency(importCountry.getImportCosts().getTransportFee(), importCountry.getCurrencyCode());
+        if (isConsumables(productInfo)) {
+            finalMargin = price - productInfo.getWholesalePrice() - (productInfo.getWholesalePrice() * (importCountry.getImportCosts().getConsumablesImportTariff() / 100))
+                    - transportFee;
+        } else {
+            finalMargin = price - productInfo.getWholesalePrice() - (productInfo.getWholesalePrice() * (importCountry.getImportCosts().getOthersImportTariff() / 100))
+                    - transportFee;
+        }
+        return finalMargin;
+    }
+
+    double changeToActualCurrency(double price, String currencyCode) {// TO DO
+        return price;
+    }
+
+    public boolean isConsumables(ProductInfo productInfo) {
+
+        switch (productInfo.getCategory()) {
+            case GROCERIES:
+            case PREPARED_FOOD:
+            case PRESCRIPTION_DRUG:
+            case NONPRESCRIPTION_DRUG:
+                return true;
+        }
+        return false;
     }
 
     boolean validatePrice(String price) {
@@ -164,6 +250,14 @@ public class Controller implements Initializable {
         return null;
     }
 
+    ImportCountry findCountry(String country) {
+        for (ImportCountry c : importCountryList) {
+            if (c.getName().equalsIgnoreCase(country))
+                return c;
+        }
+        return null;
+    }
+
     double getTaxFromCategory(ProductInfo productInfo, State state) {
         double category = -1;
         switch (productInfo.getCategory()) {
@@ -191,16 +285,34 @@ public class Controller implements Initializable {
         return category;
     }
 
-    public void onClickCheckProductWholesalePrice() {
-        String productString = searchProductTextField.getText();
-        ProductInfo productInfo = findProduct(productString);
-        if (productInfo != null) {
-            wholesalePriceTextField.setStyle("-fx-text-fill: black");
-            wholesalePriceTextField.setText(String.valueOf(productInfo.getWholesalePrice()));
-        } else {
-            wholesalePriceTextField.setStyle("-fx-text-fill: red");
-            wholesalePriceTextField.setText("Not found");
+    private ObservableList<DataInTable> getDataForAllCountryList(ImportCountry country, List<ImportCountry> countryList, ProductInfo productInfo, double price) {
+        ObservableList<DataInTable> dataInTableObservableList = FXCollections.observableArrayList();
+        int numberOfCountryWhereYouLostMoney = 0;
+        double margin = calculateMarginInOtherCountry(price, productInfo, country);
+        String marginString = formatPrice(margin).equals("-0") ? "0" : formatPrice(margin);
+        if (Double.parseDouble(marginString) < 0) {
+            numberOfCountryWhereYouLostMoney++;
         }
+        double transportFee = country.getImportCosts().getTransportFee();
+        dataInTableObservableList.add(new DataInTable(country.getName(), "-", marginString, String.valueOf(changeToActualCurrency(transportFee, country.getCurrencyCode()))));
+        for (ImportCountry c : countryList) {
+            if (!c.equals(country)) {
+                margin = calculateMarginInOtherCountry(price, productInfo, c);
+                marginString = formatPrice(margin).equals("-0") ? "0" : formatPrice(margin);
+                if (Double.parseDouble(marginString) < 0) {
+                    numberOfCountryWhereYouLostMoney++;
+                }
+                transportFee = c.getImportCosts().getTransportFee();
+                dataInTableObservableList.add(new DataInTable(c.getName(), "-", marginString, String.valueOf(changeToActualCurrency(transportFee, c.getCurrencyCode()))));
+            }
+        }
+        if (numberOfCountryWhereYouLostMoney > 0) {
+            if (numberOfCountryWhereYouLostMoney == 1)
+                warning.setText("Money loss was noted in " + numberOfCountryWhereYouLostMoney + " country");
+            else
+                warning.setText("Money loss was noted in " + numberOfCountryWhereYouLostMoney + " countries");
+        }
+        return dataInTableObservableList;
     }
 
     public ObservableList<DataInTable> getDataForAllStateList(State state, List<State> stateList, ProductInfo productInfo, double price) {
@@ -208,7 +320,7 @@ public class Controller implements Initializable {
         int numberOfStateWhereYouLostMoney = 0;
 
         double priceWithoutTax = calculateWithoutTax(price, productInfo, state);
-        double margin = calculateMargin(priceWithoutTax, productInfo, state.getLogisticCosts());
+        double margin = calculateMarginInState(priceWithoutTax, productInfo, state.getLogisticCosts());
         String marginString = formatPrice(margin).equals("-0") ? "0" : formatPrice(margin);
         if (Double.parseDouble(marginString) < 0) {
             numberOfStateWhereYouLostMoney++;
@@ -218,7 +330,7 @@ public class Controller implements Initializable {
         for (State s : stateList) {
             if (!s.equals(state)) {
                 priceWithoutTax = calculateWithoutTax(price, productInfo, s);
-                margin = calculateMargin(priceWithoutTax, productInfo, s.getLogisticCosts());
+                margin = calculateMarginInState(priceWithoutTax, productInfo, s.getLogisticCosts());
                 marginString = formatPrice(margin).equals("-0") ? "0" : formatPrice(margin);
                 if (Double.parseDouble(marginString) < 0) {
                     numberOfStateWhereYouLostMoney++;
@@ -236,7 +348,6 @@ public class Controller implements Initializable {
     }
 
     void clearAllOutputField() {
-        wholesalePriceTextField.setText("");
         tableView.setItems(null);
     }
 

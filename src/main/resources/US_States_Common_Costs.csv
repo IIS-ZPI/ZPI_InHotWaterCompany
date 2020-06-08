@@ -1,0 +1,51 @@
+Name,Code,Transport Fee
+Alabama,AL,0.04
+Alaska,AK,0.16
+Arizona,AZ,0.04
+Arkansas,AR,0.16
+California,CA,0.17
+Colorado,CO,0.06
+Connecticut,CT,0.1
+Delaware,DE,0.08
+Florida,FL,0.07
+Georgia,GA,0.03
+Hawaii,HI,0.22
+Idaho,ID,0.05
+Illinois,IL,0.08
+Indiana,IN,0.06
+Iowa,IA,0.22
+Kansas,KS,0.16
+Kentucky,KY,0.17
+Louisiana,LA,0.23
+Maine,ME,0.08
+Maryland,MD,0.09
+Massachusetts,MA,0.03
+Michigan,MI,0.06
+Minnesota,MN,0.07
+Mississippi,MS,0.22
+Missouri,MO,0.11
+Montana,MT,0.17
+Nebraska,NE,0.22
+Nevada,NV,0.1
+New Hampshire,NH,0.03
+New Jersey,NJ,0.12
+New Mexico,NM,0.23
+New York,NY,0.19
+North Carolina,NC,0.1
+North Dakota,ND,0.23
+Ohio,OH,0.05
+Oklahoma,OK,0.15
+Oregon,OR,0.15
+Pennsylvania,PA,0.17
+Rhode Island,RI,0.08
+South Carolina,SC,0.08
+South Dakota,SD,0.2
+Tennessee,TN,0.14
+Texas,TX,0.08
+Utah,UT,0.2
+Vermont,VT,0.19
+Virginia,VA,0.17
+Washington,WA,0.15
+West Virginia,WV,0.11
+Wisconsin,WI,0.19
+Wyoming,WY,0.19
