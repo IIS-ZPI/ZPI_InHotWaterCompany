@@ -1,4 +1,4 @@
-package application;
+package application.foreignTransport;
 
 public class ImportCosts {
 	private final double transportFee;

@@ -1,5 +1,6 @@
 package application;
 
+import application.product.ProductInfo;
 import db.DatabaseException;
 import db.SQLiteDatabase;
 import javafx.collections.FXCollections;

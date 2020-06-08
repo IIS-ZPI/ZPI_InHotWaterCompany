@@ -1,4 +1,4 @@
-package application;
+package application.product;
 
 public enum ProductCategory {
 	GROCERIES,

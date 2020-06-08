@@ -1,5 +1,7 @@
 package application;
 
+import application.product.CategoryTax;
+
 public class State {
     private String state;
     private double baseTax;

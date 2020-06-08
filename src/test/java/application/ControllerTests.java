@@ -1,5 +1,8 @@
 package application;
 
+import application.product.CategoryTax;
+import application.product.ProductCategory;
+import application.product.ProductInfo;
 import javafx.collections.ObservableList;
 import org.junit.Test;
 
