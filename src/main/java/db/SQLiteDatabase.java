@@ -11,11 +11,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import application.CategoryTax;
-import application.ImportCosts;
-import application.ImportCountry;
-import application.ProductCategory;
-import application.ProductInfo;
+import application.product.CategoryTax;
+import application.foreignTransport.ImportCosts;
+import application.foreignTransport.ImportCountry;
+import application.product.ProductCategory;
+import application.product.ProductInfo;
 import application.State;
 
 public class SQLiteDatabase implements Database {

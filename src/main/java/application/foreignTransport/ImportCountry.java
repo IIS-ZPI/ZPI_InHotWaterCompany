@@ -1,4 +1,4 @@
-package application;
+package application.foreignTransport;
 
 public class ImportCountry {
 	private final String name;

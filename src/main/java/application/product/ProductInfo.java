@@ -1,4 +1,4 @@
-package application;
+package application.product;
 
 public class ProductInfo {
     private String product;

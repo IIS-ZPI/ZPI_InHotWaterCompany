@@ -2,10 +2,10 @@ package utils;
 
 import java.io.IOException;
 
-import application.ImportCosts;
-import application.ImportCountry;
-import application.ProductCategory;
-import application.ProductInfo;
+import application.foreignTransport.ImportCosts;
+import application.foreignTransport.ImportCountry;
+import application.product.ProductCategory;
+import application.product.ProductInfo;
 import db.Database;
 import db.DatabaseException;
 

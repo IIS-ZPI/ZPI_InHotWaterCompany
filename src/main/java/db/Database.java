@@ -3,9 +3,9 @@ package db;
 import java.sql.Connection;
 import java.util.List;
 
-import application.ImportCosts;
-import application.ImportCountry;
-import application.ProductInfo;
+import application.foreignTransport.ImportCosts;
+import application.foreignTransport.ImportCountry;
+import application.product.ProductInfo;
 import application.State;
 
 public interface Database {

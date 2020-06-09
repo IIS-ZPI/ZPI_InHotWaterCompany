@@ -1,4 +1,4 @@
-package application;
+package application.product;
 
 public class CategoryTax {
     private double groceries, preparedFood, prescriptionDrug, nonPrescriptionDrug, clothing, intangibles;
