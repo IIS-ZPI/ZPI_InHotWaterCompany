@@ -49,7 +49,7 @@ public final class ExchangeRate {
 	 * @throws IOException if can't connect to remote server
 	 * @throws IllegalArgumentException if specified currency isn't supported
 	 */
-	public static double getFor(String currencyCode) throws IOException, IllegalArgumentException {
+	public static double getFor(String currencyCode) throws IOException {
 		if (data == null) {
 			fetchData();
 		}
