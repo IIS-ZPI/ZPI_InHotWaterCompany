@@ -53,9 +53,9 @@ public final class ExchangeRate {
 		if (data == null) {
 			fetchData();
 		}
-		
 		if (!data.has(currencyCode)) {
-			throw new IllegalArgumentException("Unsupported currency");
+			//throw new IllegalArgumentException("Unsupported currency");
+			return 0;
 		}
 		
 		return data.getDouble(currencyCode);

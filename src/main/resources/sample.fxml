@@ -19,7 +19,7 @@
       </Text>
       <TextField fx:id="searchProductTextField" layoutX="31.0" layoutY="192.0" onInputMethodTextChanged="#onInputTextChangedDependOnProduct" prefHeight="26.0" prefWidth="176.0" promptText="Product" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="190.0" />
       <TextField fx:id="searchStateTextField" layoutX="31.0" layoutY="328.0" prefHeight="20.0" prefWidth="176.0" promptText="State" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="290.0" />
-      <TextField fx:id="priceTextField" layoutX="31.0" layoutY="438.0" prefHeight="20.0" prefWidth="176.0" promptText="Price" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="410.0" />
+      <TextField fx:id="priceTextField" layoutX="31.0" layoutY="438.0" prefHeight="26.0" prefWidth="120.0" promptText="Price" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="410.0" />
       <Text fill="#3c3a3a" layoutX="279.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tax Calculator" textAlignment="CENTER" AnchorPane.leftAnchor="279.0" AnchorPane.rightAnchor="279.0" AnchorPane.topAnchor="30.79931640625">
          <font>
             <Font size="39.0" />
@@ -27,12 +27,12 @@
       </Text>
       <TextField fx:id="wholesalePriceTextField" editable="false" layoutX="31.0" layoutY="247.0" prefHeight="26.0" prefWidth="176.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="250.0" />
       <Text layoutX="37.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wholesale price of product" wrappingWidth="176.000016361475" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="231.0" />
-      <TableView fx:id="tableView" layoutX="281.0" layoutY="192.0" prefHeight="312.0" prefWidth="471.0" AnchorPane.leftAnchor="281.0" AnchorPane.topAnchor="192.0">
+      <TableView fx:id="tableView" layoutX="281.0" layoutY="192.0" prefHeight="312.0" prefWidth="511.0" AnchorPane.leftAnchor="281.0" AnchorPane.topAnchor="192.0">
          <columns>
             <TableColumn fx:id="stateColumn" editable="false" prefWidth="144.0" text="State/Country" />
             <TableColumn fx:id="priceWithoutTaxColumn" editable="false" prefWidth="138.0" text="Price without tax" />
-            <TableColumn fx:id="marginColumn" editable="false" prefWidth="78.0" sortable="false" text="Margin" />
-            <TableColumn fx:id="logisticCostColumn" editable="false" prefWidth="100.0" text="Logistic cost" />
+            <TableColumn fx:id="marginColumn" editable="false" prefWidth="116.0" sortable="false" text="Margin" />
+            <TableColumn fx:id="logisticCostColumn" editable="false" prefWidth="105.0" text="Logistic cost" />
          </columns>
       </TableView>
       <Text layoutX="31.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter data:" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="152.22021484375">
@@ -47,5 +47,7 @@
       </Text>
       <TextField fx:id="searchCountryTextField" layoutX="31.0" layoutY="357.0" prefHeight="26.0" prefWidth="176.0" promptText="Country" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="370.0" />
       <CheckBox fx:id="sendAbroadCheckBox" layoutX="31.0" layoutY="330.0" mnemonicParsing="false" onAction="#checkBoxesOnAction" text="Send abroad" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="330.0" />
+      <TextField fx:id="currencyTextField" layoutX="152.0" layoutY="410.0" prefHeight="26.0" prefWidth="54.0" />
+      <Text fx:id="connectionText" layoutX="281.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="494.7294921875" />
    </children>
 </AnchorPane>
