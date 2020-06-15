@@ -3,7 +3,9 @@ package db;
 import java.sql.Connection;
 import java.util.List;
 
-import application.ProductInfo;
+import application.foreignTransport.ImportCosts;
+import application.foreignTransport.ImportCountry;
+import application.product.ProductInfo;
 import application.State;
 
 public interface Database {
@@ -29,7 +31,7 @@ public interface Database {
 	/**
 	 * Fetches all states from database
 	 * 
-	 * @return - list of states
+	 * @return list of states
 	 * @throws DatabaseException if something gone wrong
 	 */
 	public List<State> fetchAllStates() throws DatabaseException;
@@ -58,6 +60,31 @@ public interface Database {
 	 * @throws DatabaseException if something gone wrong
 	 */
 	public void updateLogisticCost(String stateName, double logisticCost) throws DatabaseException;
+	
+	/**
+	 * Inserts import country to database
+	 * 
+	 * @param importCountry - import country to insert
+	 * @throws DatabaseException if something gone wrong
+	 */
+	public void insertImportCountry(ImportCountry importCountry) throws DatabaseException;
+	
+	/**
+	 * Updates import costs for specified import country
+	 * 
+	 * @param countryName - country name to update
+	 * @param importCosts - new import costs for country
+	 * @throws DatabaseException if something gone wrong
+	 */
+	public void updateImportCosts(String countryName, ImportCosts importCosts) throws DatabaseException;
+	
+	/**
+	 * Fetches all import countries from database
+	 * 
+	 * @return list of import countries
+	 * @throws DatabaseException if something gone wrong
+	 */
+	public List<ImportCountry> fetchAllImportCountries() throws DatabaseException;
 	
 	/**
 	 * Returns Connection object to perform various tasks not provided by this interface

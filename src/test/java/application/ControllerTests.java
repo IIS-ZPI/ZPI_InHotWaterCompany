@@ -1,35 +1,42 @@
 package application;
 
+import application.product.CategoryTax;
+import application.product.ProductCategory;
+import application.product.ProductInfo;
+import javafx.collections.ObservableList;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 public class ControllerTests {
 
-    Controller controller = new Controller();
+    private Controller controller = new Controller();
 
-    ProductInfo apple = new ProductInfo("apple", "groceries", 5.0);
-    //ProductInfo apple = new ProductInfo("apple", ProductCategory.GROCERIES, 5.0);
-    CategoryTax categories = new CategoryTax(1, 1, 1, 1, 1, 1);
-    State alaska = new State("Alaska", 0.5, categories);
+    private ProductInfo apple = new ProductInfo("apple", ProductCategory.GROCERIES, 5.0);
+    private CategoryTax taxesInAlaska = new CategoryTax(1, 1, 1, 1, 1, 1);
+    private State alaska = new State("Alaska", 0.5, taxesInAlaska, 2);
+    private CategoryTax taxesInAlabama = new CategoryTax(4, 4, 0, 4, 4, 4);
+    private State alabama = new State("Alabama", 4, taxesInAlabama, 3);
 
     @Test
     public void calculateWithoutTax_ReturnedSpecifiedValue() {
         double userPrice = 10;
         double groceriesTax = 1;
 
-        double priceWithoutTax = controller.calculateWithoutTax(userPrice, apple, alaska);
-        double expectedPriceWithouTax = userPrice / ((100 + groceriesTax) / 100);
+        double priceWithoutTax = Calculation.calculateWithoutTax(userPrice, apple, alaska);
+        double expectedPriceWithoutTax = userPrice / ((100 + groceriesTax) / 100);
 
-        assertThat(priceWithoutTax, equalTo(expectedPriceWithouTax));
+        assertThat(priceWithoutTax, equalTo(expectedPriceWithoutTax));
     }
 
     @Test
     public void calculateMargin_ReturnedSpecifiedValue() {
         double priceWithoutTax = 1.98;
         double logisticCosts = 1;
-        double margin = controller.calculateMargin(priceWithoutTax, apple,logisticCosts);
+        double margin = Calculation.calculateMarginInState(priceWithoutTax, apple, logisticCosts);
         double expectedMargin = priceWithoutTax - apple.getWholesalePrice() - logisticCosts;
 
         assertThat(margin, equalTo(expectedMargin));
@@ -71,12 +78,40 @@ public class ControllerTests {
     }
 
     @Test
-    public void getTaxCategory_ReturnedSpecifiedValue(){
+    public void getTaxCategory_ReturnedSpecifiedValue() {
         double expectedTaxForAppleInAlaska = alaska.getCategory().getGroceries();
-        double taxForAppleInAlaska = controller.getTaxFromCategory(apple, alaska);
+        double taxForAppleInAlaska = Calculation.getTaxFromCategory(apple, alaska);
 
         assertThat(taxForAppleInAlaska, equalTo(expectedTaxForAppleInAlaska));
     }
 
+    @Test
+    public void getDataForAllstateList_ReturnedListWithThreeElements() {
+        ArrayList<State> states = new ArrayList<>();
+        states.add(alaska);
+        states.add(alabama);
 
+        ObservableList<DataInTable> observableList = controller.getDataForAllStateList(states.get(0), states, apple, 10);
+
+        assertThat(observableList.size(), equalTo(2));
+    }
+
+    @Test
+    public void getDataForAllstateList_ReturnedSpecifiedElement() {
+        ArrayList<State> states = new ArrayList<>();
+        states.add(alaska);
+
+        ObservableList<DataInTable> observableList = controller.getDataForAllStateList(states.get(0), states, apple, 10);
+        DataInTable dataInTable = observableList.get(0);
+
+        String expectedState = "Alaska";
+        String expectedPriceWithoutTax = "9.9 USD";
+        String expectedMargin = "2.9 USD";
+        String expectedLogisticCost = "2.0 USD";
+
+        assertThat(dataInTable.getState(), equalTo(expectedState));
+        assertThat(dataInTable.getPriceWithoutTax(), equalTo(expectedPriceWithoutTax));
+        assertThat(dataInTable.getMargin(), equalTo(expectedMargin));
+        assertThat(dataInTable.getLogisticCost(), equalTo(expectedLogisticCost));
+    }
 }
