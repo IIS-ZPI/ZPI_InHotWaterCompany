@@ -130,3 +130,4 @@ public class FXTests extends ApplicationTest {
         return lookup(query).query();
     }
 }
+
