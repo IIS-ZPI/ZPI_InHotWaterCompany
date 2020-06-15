@@ -47,7 +47,7 @@
       </Text>
       <TextField fx:id="searchCountryTextField" layoutX="31.0" layoutY="357.0" prefHeight="26.0" prefWidth="176.0" promptText="Country" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="370.0" />
       <CheckBox fx:id="sendAbroadCheckBox" layoutX="31.0" layoutY="330.0" mnemonicParsing="false" onAction="#checkBoxesOnAction" text="Send abroad" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="330.0" />
-      <TextField fx:id="currencyTextField" layoutX="152.0" layoutY="410.0" prefHeight="26.0" prefWidth="54.0" />
+      <TextField fx:id="currencyTextField" editable="false" layoutX="152.0" layoutY="410.0" prefHeight="26.0" prefWidth="54.0" />
       <Text fx:id="connectionText" layoutX="281.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="494.7294921875" />
    </children>
 </AnchorPane>
