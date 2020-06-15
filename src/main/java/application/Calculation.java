@@ -3,6 +3,10 @@ package application;
 import application.foreignTransport.ImportCountry;
 import application.product.ProductInfo;
 
+import java.io.IOException;
+
+import static utils.ExchangeRate.getFor;
+
 public class Calculation {
     static double calculateWithoutTax(double price, ProductInfo productInfo, State state) {
         return price / ((100.0 + getTaxFromCategory(productInfo, state)) / 100);
@@ -12,21 +16,20 @@ public class Calculation {
         return priceWithoutTax - productInfo.getWholesalePrice() - logisticCosts;
     }
 
-    static double calculateMarginInOtherCountry(double price, ProductInfo productInfo, ImportCountry importCountry) {
-        double finalMargin = 0;
-        double transportFee = changeToActualCurrency(importCountry.getImportCosts().getTransportFee(), importCountry.getCurrencyCode());
+    static double calculateMarginInOtherCountry(double price, ProductInfo productInfo, ImportCountry importCountry) throws IOException {
+        double importTariff = 0;
+        double transportFee = importCountry.getImportCosts().getTransportFee();
         if (isConsumables(productInfo)) {
-            finalMargin = price - productInfo.getWholesalePrice() - (productInfo.getWholesalePrice() * (importCountry.getImportCosts().getConsumablesImportTariff() / 100))
-                    - transportFee;
+            importTariff = productInfo.getWholesalePrice() * (importCountry.getImportCosts().getConsumablesImportTariff() / 100);
         } else {
-            finalMargin = price - productInfo.getWholesalePrice() - (productInfo.getWholesalePrice() * (importCountry.getImportCosts().getOthersImportTariff() / 100))
-                    - transportFee;
+            importTariff = productInfo.getWholesalePrice() * (importCountry.getImportCosts().getOthersImportTariff() / 100);
         }
-        return finalMargin;
+        double finalMargin = price - productInfo.getWholesalePrice() - importTariff - transportFee;
+        return changeToActualCurrency(finalMargin, importCountry.getCurrencyCode());
     }
 
-    static double changeToActualCurrency(double price, String currencyCode) {// TO DO
-        return price;
+    static double changeToActualCurrency(double price, String currencyCode) throws IOException {
+        return price * getFor(currencyCode);
     }
 
     static public boolean isConsumables(ProductInfo productInfo) {
@@ -37,8 +40,9 @@ public class Calculation {
             case PRESCRIPTION_DRUG:
             case NONPRESCRIPTION_DRUG:
                 return true;
+            default:
+                return false;
         }
-        return false;
     }
 
     static double getTaxFromCategory(ProductInfo productInfo, State state) {
