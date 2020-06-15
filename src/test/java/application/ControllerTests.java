@@ -105,9 +105,9 @@ public class ControllerTests {
         DataInTable dataInTable = observableList.get(0);
 
         String expectedState = "Alaska";
-        String expectedPriceWithoutTax = "9.9";
-        String expectedMargin = "2.9";
-        String expectedLogisticCost = "2.0";
+        String expectedPriceWithoutTax = "9.9 USD";
+        String expectedMargin = "2.9 USD";
+        String expectedLogisticCost = "2.0 USD";
 
         assertThat(dataInTable.getState(), equalTo(expectedState));
         assertThat(dataInTable.getPriceWithoutTax(), equalTo(expectedPriceWithoutTax));
