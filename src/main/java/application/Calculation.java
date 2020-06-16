@@ -8,6 +8,11 @@ import java.io.IOException;
 import static utils.ExchangeRate.getFor;
 
 public class Calculation {
+
+    private Calculation() {
+        super();
+    }
+
     static double calculateWithoutTax(double price, ProductInfo productInfo, State state) {
         return price / ((100.0 + getTaxFromCategory(productInfo, state)) / 100);
     }
@@ -18,11 +23,14 @@ public class Calculation {
 
     static double calculateMarginInOtherCountry(double price, ProductInfo productInfo, ImportCountry importCountry) throws IOException {
         double importTariff = 0;
-        double transportFee = importCountry.getImportCosts().getTransportFee();
+        double transportFee = importCountry.getImportCosts()
+                                           .getTransportFee();
         if (isConsumables(productInfo)) {
-            importTariff = productInfo.getWholesalePrice() * (importCountry.getImportCosts().getConsumablesImportTariff() / 100);
+            importTariff = productInfo.getWholesalePrice() * (importCountry.getImportCosts()
+                                                                           .getConsumablesImportTariff() / 100);
         } else {
-            importTariff = productInfo.getWholesalePrice() * (importCountry.getImportCosts().getOthersImportTariff() / 100);
+            importTariff = productInfo.getWholesalePrice() * (importCountry.getImportCosts()
+                                                                           .getOthersImportTariff() / 100);
         }
         double finalMargin = price - productInfo.getWholesalePrice() - importTariff - transportFee;
         return changeToActualCurrency(finalMargin, importCountry.getCurrencyCode());
@@ -49,22 +57,28 @@ public class Calculation {
         double category = -1;
         switch (productInfo.getCategory()) {
             case GROCERIES:
-                category = state.getCategory().getGroceries();
+                category = state.getCategory()
+                                .getGroceries();
                 break;
             case PREPARED_FOOD:
-                category = state.getCategory().getPreparedFood();
+                category = state.getCategory()
+                                .getPreparedFood();
                 break;
             case PRESCRIPTION_DRUG:
-                category = state.getCategory().getPrescriptionDrug();
+                category = state.getCategory()
+                                .getPrescriptionDrug();
                 break;
             case NONPRESCRIPTION_DRUG:
-                category = state.getCategory().getNonPrescriptionDrug();
+                category = state.getCategory()
+                                .getNonPrescriptionDrug();
                 break;
             case CLOTHING:
-                category = state.getCategory().getClothing();
+                category = state.getCategory()
+                                .getClothing();
                 break;
             case INTANGIBLES:
-                category = state.getCategory().getIntangibles();
+                category = state.getCategory()
+                                .getIntangibles();
                 break;
             default:
                 break;
