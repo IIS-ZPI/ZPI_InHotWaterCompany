@@ -37,40 +37,40 @@ public class SQLTests {
     @Test
     public void fetchAllImportCountriesReturnListWithOneElement() throws DatabaseException {
         sqLiteDatabase.insertImportCountry(poland);
-        List<ImportCountry> productInfoList = sqLiteDatabase.fetchAllImportCountries();
+        List<ImportCountry> ImportCountryList = sqLiteDatabase.fetchAllImportCountries();
 
-        assertThat(productInfoList.size(), equalTo(1));
+        assertThat(ImportCountryList.size(), equalTo(1));
     }
 
     @Test
     public void fetchAllStatesReturnListWithOneElement() throws DatabaseException {
-        List<State> productInfoList = sqLiteDatabase.fetchAllStates();
+        List<State> StateList = sqLiteDatabase.fetchAllStates();
 
-        assertThat(productInfoList.size(), equalTo(3));
+        assertThat(StateList.size(), equalTo(3));
     }
 
     @Test
     public void fetchAllCategoryNamesReturnListWithOneElement() throws DatabaseException {
-        List<String> productInfoList = sqLiteDatabase.fetchAllCategoryNames();
+        List<String> categoriesList = sqLiteDatabase.fetchAllCategoryNames();
 
-        assertThat(productInfoList.size(), equalTo(6));
+        assertThat(categoriesList.size(), equalTo(6));
     }
 
     @Test
     public void updateLogisticCostShouldChangeLogisticCostsInSpecifiedState() throws DatabaseException {
         sqLiteDatabase.updateLogisticCost("Alabama", 5.55);
-        List<State> productInfoList = sqLiteDatabase.fetchAllStates();
+        List<State> stateList = sqLiteDatabase.fetchAllStates();
 
-        assertThat(productInfoList.get(0).getLogisticCosts(), equalTo(5.55));
+        assertThat(stateList.get(0).getLogisticCosts(), equalTo(5.55));
     }
 
     @Test
     public void updateImportCostShouldChangeImportCostsInSpecifiedState() throws DatabaseException {
         sqLiteDatabase.insertImportCountry(poland);
         sqLiteDatabase.updateImportCosts("Poland", new ImportCosts(9, 9, 9));
-        List<ImportCountry> productInfoList = sqLiteDatabase.fetchAllImportCountries();
+        List<ImportCountry> importCountryList = sqLiteDatabase.fetchAllImportCountries();
 
-        ImportCosts importCosts = productInfoList.get(0).getImportCosts();
+        ImportCosts importCosts = importCountryList.get(0).getImportCosts();
         assertThat(importCosts.getTransportFee(), equalTo(9d));
         assertThat(importCosts.getConsumablesImportTariff(), equalTo(9d));
         assertThat(importCosts.getOthersImportTariff(), equalTo(9d));
@@ -80,10 +80,10 @@ public class SQLTests {
     @Test
     public void fetchAllImportCountriesShouldReturnInsertedCountry() throws DatabaseException {
         sqLiteDatabase.insertImportCountry(poland);
-        List<ImportCountry> productInfoList = sqLiteDatabase.fetchAllImportCountries();
+        List<ImportCountry> importCountryList = sqLiteDatabase.fetchAllImportCountries();
 
         boolean polandIsPresent = false;
-        for (ImportCountry importCountry : productInfoList) {
+        for (ImportCountry importCountry : importCountryList) {
             if (importCountry.getName().equals("Poland"))
                 polandIsPresent = true;
         }
