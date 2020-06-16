@@ -1,7 +1,6 @@
 package application;
 
 public class CategoryTax {
-
     private final double groceries;
     private final double preparedFood;
     private final double prescriptionDrug;
