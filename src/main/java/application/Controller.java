@@ -27,8 +27,10 @@ import java.util.ResourceBundle;
 import static application.Calculation.*;
 
 public class Controller implements Initializable {
-    private final String CLEAN_TEXTFIELD = "";
-    private final String BASE_CURRENCY = " USD";
+
+    private static final String CLEAN_TEXTFIELD = "";
+    private static final String BASE_CURRENCY = " USD";
+    public static final String MONEY_LOSS_WAS_NOTED_IN = "Money loss was noted in ";
     private List<State> stateList = new ArrayList<>();
     private List<ProductInfo> productInfoList = new ArrayList<>();
     private List<String> productListAutoCompletion = new ArrayList<>();
@@ -80,7 +82,7 @@ public class Controller implements Initializable {
             }
 
             stateList.addAll(database.fetchAllStates());
-            stateList.forEach(x -> stateListAutoCompletion.add(x.getState()));
+            stateList.forEach(x -> stateListAutoCompletion.add(x.getUsaState()));
 
             productInfoList.addAll(database.fetchAllProducts());
             productInfoList.forEach(x -> productListAutoCompletion.add(x.getProduct()));
@@ -209,9 +211,9 @@ public class Controller implements Initializable {
         }
         if (numberOfCountryWhereYouLostMoney > 0) {
             if (numberOfCountryWhereYouLostMoney == 1)
-                warning.setText("Money loss was noted in " + numberOfCountryWhereYouLostMoney + " country");
+                warning.setText(MONEY_LOSS_WAS_NOTED_IN + numberOfCountryWhereYouLostMoney + " country");
             else
-                warning.setText("Money loss was noted in " + numberOfCountryWhereYouLostMoney + " countries");
+                warning.setText(MONEY_LOSS_WAS_NOTED_IN + numberOfCountryWhereYouLostMoney + " countries");
         }
         return dataInTableObservableList;
     }
@@ -226,7 +228,7 @@ public class Controller implements Initializable {
         if (Double.parseDouble(marginString) < 0) {
             numberOfStateWhereYouLostMoney++;
         }
-        dataInTableObservableList.add(new DataInTable(state.getState(), formatPrice(priceWithoutTax) + BASE_CURRENCY, marginString + BASE_CURRENCY, state.getLogisticCosts() + BASE_CURRENCY));
+        dataInTableObservableList.add(new DataInTable(state.getUsaState(), formatPrice(priceWithoutTax) + BASE_CURRENCY, marginString + BASE_CURRENCY, state.getLogisticCosts() + BASE_CURRENCY));
 
         for (State s : stateList) {
             if (!s.equals(state)) {
@@ -236,14 +238,14 @@ public class Controller implements Initializable {
                 if (Double.parseDouble(marginString) < 0) {
                     numberOfStateWhereYouLostMoney++;
                 }
-                dataInTableObservableList.add(new DataInTable(s.getState(), formatPrice(priceWithoutTax) + BASE_CURRENCY, marginString + BASE_CURRENCY, s.getLogisticCosts() + BASE_CURRENCY));
+                dataInTableObservableList.add(new DataInTable(s.getUsaState(), formatPrice(priceWithoutTax) + BASE_CURRENCY, marginString + BASE_CURRENCY, s.getLogisticCosts() + BASE_CURRENCY));
             }
         }
         if (numberOfStateWhereYouLostMoney > 0) {
             if (numberOfStateWhereYouLostMoney == 1)
-                warning.setText("Money loss was noted in " + numberOfStateWhereYouLostMoney + " state");
+                warning.setText(MONEY_LOSS_WAS_NOTED_IN + numberOfStateWhereYouLostMoney + " state");
             else
-                warning.setText("Money loss was noted in " + numberOfStateWhereYouLostMoney + " states");
+                warning.setText(MONEY_LOSS_WAS_NOTED_IN + numberOfStateWhereYouLostMoney + " states");
         }
         return dataInTableObservableList;
     }
