@@ -188,7 +188,7 @@ public class Controller implements Initializable {
         }
     }
 
-    private ObservableList<DataInTable> getDataForAllCountryList(ImportCountry country, List<ImportCountry> countryList, ProductInfo productInfo, double price) throws IOException {
+    public ObservableList<DataInTable> getDataForAllCountryList(ImportCountry country, List<ImportCountry> countryList, ProductInfo productInfo, double price) throws IOException {
         ObservableList<DataInTable> dataInTableObservableList = FXCollections.observableArrayList();
         int numberOfCountryWhereYouLostMoney = 0;
         double margin = calculateMarginInOtherCountry(price, productInfo, country);
