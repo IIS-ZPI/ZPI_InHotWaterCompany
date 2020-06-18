@@ -1,8 +1,12 @@
 package application.product;
 
 public class CategoryTax {
-    private double groceries, preparedFood, prescriptionDrug, nonPrescriptionDrug, clothing, intangibles;
-
+    private final double groceries;
+    private final double preparedFood;
+    private final double prescriptionDrug;
+    private final double nonPrescriptionDrug;
+    private final double clothing;
+    private final double intangibles;
     public CategoryTax(double groceries, double preparedFood, double prescriptionDrug, double nonPrescriptionDrug, double clothing, double intangibles) {
         this.groceries = groceries;
         this.preparedFood = preparedFood;

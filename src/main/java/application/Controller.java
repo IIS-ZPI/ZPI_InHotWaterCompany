@@ -64,7 +64,11 @@ public class Controller implements Initializable {
     @FXML
     private TextField currencyTextField;
     @FXML
+    private TextField minimalPriceTextField;
+    @FXML
     private Text connectionText;
+    @FXML
+    private Text minimalPriceText;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
@@ -105,6 +109,8 @@ public class Controller implements Initializable {
             if (productInfo != null) {
                 wholesalePriceTextField.setStyle("-fx-text-fill: black");
                 wholesalePriceTextField.setText(String.valueOf(productInfo.getWholesalePrice()));
+                if (!sendAbroadCheckBox.isSelected())
+                    minimalPriceTextField.setText(formatPrice(getMinimalSellPrice(productInfo, stateList)));
             } else {
                 wholesalePriceTextField.setStyle("-fx-text-fill: red");
                 wholesalePriceTextField.setText("Not found");
@@ -123,6 +129,10 @@ public class Controller implements Initializable {
             connectionText.setText("Internet is not connected. Checking margin for other country are disabled.");
             sendAbroadCheckBox.setDisable(true);
         }
+        logisticCostColumn.setResizable(false);
+        marginColumn.setResizable(false);
+        priceWithoutTaxColumn.setResizable(false);
+        stateColumn.setResizable(false);
     }
 
     @FXML
@@ -135,10 +145,15 @@ public class Controller implements Initializable {
             searchStateTextField.setDisable(true);
             searchCountryTextField.setDisable(false);
             searchStateTextField.setText(CLEAN_TEXTFIELD);
+            minimalPriceTextField.setDisable(true);
+            minimalPriceText.setText(CLEAN_TEXTFIELD);
+            minimalPriceTextField.setText(CLEAN_TEXTFIELD);
         } else {
             searchStateTextField.setDisable(false);
             searchCountryTextField.setDisable(true);
             searchCountryTextField.setText(CLEAN_TEXTFIELD);
+            minimalPriceTextField.setDisable(false);
+            minimalPriceText.setText("Minimum price, which doesn't cause losses in any state");
         }
     }
 
@@ -265,7 +280,7 @@ public class Controller implements Initializable {
                 if (!isEmpty()) {
                     if (item.charAt(0) == '-') {
                         currentRow.setStyle("-fx-background-color:lightcoral");
-                    } else if (item.length() == 1 && item.charAt(0) == '0') {
+                    } else if (item.charAt(0) == '0' && item.charAt(1) != '.') {
                         currentRow.setStyle("-fx-background-color:yellow");
                     } else {
                         currentRow.setStyle("-fx-background-color:lightgreen");
