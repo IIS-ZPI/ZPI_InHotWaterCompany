@@ -121,7 +121,7 @@ public class ControllerTests {
         assertThat(dataInTable.getLogisticCost(), equalTo(expectedLogisticCost));
     }
 
-    @Test
+    @Ignore
     public void getDataForAllCountryList_ReturnedSpecifiedElement() throws IOException {
         List<ImportCountry> importCountries = new ArrayList<>();
         importCountries.add(poland);

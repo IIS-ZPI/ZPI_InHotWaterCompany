@@ -11,23 +11,23 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="626.0" prefWidth="839.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
    <children>
-      <Button fx:id="checkButton" layoutX="142.0" layoutY="448.0" mnemonicParsing="false" onAction="#onClickCheckButton" prefHeight="26.0" prefWidth="65.0" text="Check" AnchorPane.leftAnchor="142.0" AnchorPane.topAnchor="448.0" />
+      <Button fx:id="checkButton" layoutX="139.0" layoutY="503.0" mnemonicParsing="false" onAction="#onClickCheckButton" prefHeight="26.0" prefWidth="65.0" text="Check" AnchorPane.leftAnchor="139.0" AnchorPane.topAnchor="503.0" />
       <Text fx:id="warning" fill="#ff0303" layoutX="30.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="435.7294921875" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="100.0">
          <font>
             <Font size="17.0" />
          </font>
       </Text>
-      <TextField fx:id="searchProductTextField" layoutX="31.0" layoutY="192.0" onInputMethodTextChanged="#onInputTextChangedDependOnProduct" prefHeight="26.0" prefWidth="176.0" promptText="Product" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="190.0" />
-      <TextField fx:id="searchStateTextField" layoutX="31.0" layoutY="328.0" prefHeight="20.0" prefWidth="176.0" promptText="State" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="290.0" />
-      <TextField fx:id="priceTextField" layoutX="31.0" layoutY="438.0" prefHeight="26.0" prefWidth="120.0" promptText="Price" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="410.0" />
+      <TextField fx:id="searchProductTextField" layoutX="31.0" layoutY="192.0" onInputMethodTextChanged="#onInputTextChangedDependOnProduct" prefHeight="25.0" prefWidth="195.0" promptText="Product" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="190.0" />
+      <TextField fx:id="searchStateTextField" layoutX="31.0" layoutY="328.0" prefHeight="26.0" prefWidth="195.0" promptText="State" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="290.0" />
+      <TextField fx:id="priceTextField" layoutX="26.0" layoutY="465.0" prefHeight="26.0" prefWidth="142.0" promptText="Price" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="465.0" />
       <Text fill="#3c3a3a" layoutX="279.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tax Calculator" textAlignment="CENTER" AnchorPane.leftAnchor="279.0" AnchorPane.rightAnchor="279.0" AnchorPane.topAnchor="30.79931640625">
          <font>
             <Font size="39.0" />
          </font>
       </Text>
-      <TextField fx:id="wholesalePriceTextField" editable="false" layoutX="31.0" layoutY="247.0" prefHeight="26.0" prefWidth="176.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="250.0" />
+      <TextField fx:id="wholesalePriceTextField" editable="false" layoutX="31.0" layoutY="247.0" prefHeight="25.0" prefWidth="195.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="250.0" />
       <Text layoutX="37.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wholesale price of product" wrappingWidth="176.000016361475" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="231.0" />
-      <TableView fx:id="tableView" layoutX="281.0" layoutY="192.0" prefHeight="312.0" prefWidth="511.0" AnchorPane.leftAnchor="281.0" AnchorPane.topAnchor="192.0">
+      <TableView fx:id="tableView" layoutX="281.0" layoutY="192.0" prefHeight="343.0" prefWidth="506.0" AnchorPane.leftAnchor="281.0" AnchorPane.topAnchor="192.0">
          <columns>
             <TableColumn fx:id="stateColumn" editable="false" prefWidth="144.0" text="State/Country" />
             <TableColumn fx:id="priceWithoutTaxColumn" editable="false" prefWidth="138.0" text="Price without tax" />
@@ -45,9 +45,11 @@
             <Font size="17.0" />
          </font>
       </Text>
-      <TextField fx:id="searchCountryTextField" layoutX="31.0" layoutY="357.0" prefHeight="26.0" prefWidth="176.0" promptText="Country" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="370.0" />
-      <CheckBox fx:id="sendAbroadCheckBox" layoutX="31.0" layoutY="330.0" mnemonicParsing="false" onAction="#checkBoxesOnAction" text="Send abroad" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="330.0" />
-      <TextField fx:id="currencyTextField" editable="false" layoutX="152.0" layoutY="410.0" prefHeight="26.0" prefWidth="54.0" />
+      <TextField fx:id="searchCountryTextField" layoutX="29.0" layoutY="428.0" prefHeight="25.0" prefWidth="195.0" promptText="Country" AnchorPane.leftAnchor="29.0" AnchorPane.topAnchor="428.0" />
+      <CheckBox fx:id="sendAbroadCheckBox" layoutX="32.0" layoutY="398.0" mnemonicParsing="false" onAction="#checkBoxesOnAction" text="Send abroad" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="398.0" />
+      <TextField fx:id="currencyTextField" editable="false" layoutX="170.0" layoutY="465.0" prefHeight="25.0" prefWidth="54.0" />
       <Text fx:id="connectionText" layoutX="281.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="494.7294921875" />
+      <TextField fx:id="minimalPriceTextField" editable="false" layoutX="31.0" layoutY="366.0" prefHeight="25.0" prefWidth="195.0" />
+      <Text fx:id="minimalPriceText" layoutX="32.0" layoutY="336.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Minimum price, which doesn't cause losses in any state" wrappingWidth="199.0000141263008" />
    </children>
 </AnchorPane>
