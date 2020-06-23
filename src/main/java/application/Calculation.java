@@ -4,6 +4,7 @@ import application.foreignTransport.ImportCountry;
 import application.product.ProductInfo;
 
 import java.io.IOException;
+import java.util.List;
 
 import static utils.ExchangeRate.getFor;
 
@@ -24,13 +25,13 @@ public class Calculation {
     static double calculateMarginInOtherCountry(double price, ProductInfo productInfo, ImportCountry importCountry) throws IOException {
         double importTariff = 0;
         double transportFee = importCountry.getImportCosts()
-                                           .getTransportFee();
+                .getTransportFee();
         if (isConsumables(productInfo)) {
             importTariff = productInfo.getWholesalePrice() * (importCountry.getImportCosts()
-                                                                           .getConsumablesImportTariff() / 100);
+                    .getConsumablesImportTariff() / 100);
         } else {
             importTariff = productInfo.getWholesalePrice() * (importCountry.getImportCosts()
-                                                                           .getOthersImportTariff() / 100);
+                    .getOthersImportTariff() / 100);
         }
         double finalMargin = price - productInfo.getWholesalePrice() - importTariff - transportFee;
         return changeToActualCurrency(finalMargin, importCountry.getCurrencyCode());
@@ -38,6 +39,18 @@ public class Calculation {
 
     static double changeToActualCurrency(double price, String currencyCode) throws IOException {
         return price * getFor(currencyCode);
+    }
+
+    static double getMinimalSellPrice(ProductInfo productInfo, List<State> stateList) {
+        double minimumPrice = productInfo.getWholesalePrice();
+        double tmp;
+        double finishPrice = 0;
+        for (State state : stateList) {
+            tmp = (minimumPrice + state.getLogisticCosts()) * (1 + (getTaxFromCategory(productInfo, state) / 100));
+            if (finishPrice < tmp)
+                finishPrice = tmp;
+        }
+        return finishPrice;
     }
 
     static public boolean isConsumables(ProductInfo productInfo) {
@@ -58,27 +71,27 @@ public class Calculation {
         switch (productInfo.getCategory()) {
             case GROCERIES:
                 category = state.getCategory()
-                                .getGroceries();
+                        .getGroceries();
                 break;
             case PREPARED_FOOD:
                 category = state.getCategory()
-                                .getPreparedFood();
+                        .getPreparedFood();
                 break;
             case PRESCRIPTION_DRUG:
                 category = state.getCategory()
-                                .getPrescriptionDrug();
+                        .getPrescriptionDrug();
                 break;
             case NONPRESCRIPTION_DRUG:
                 category = state.getCategory()
-                                .getNonPrescriptionDrug();
+                        .getNonPrescriptionDrug();
                 break;
             case CLOTHING:
                 category = state.getCategory()
-                                .getClothing();
+                        .getClothing();
                 break;
             case INTANGIBLES:
                 category = state.getCategory()
-                                .getIntangibles();
+                        .getIntangibles();
                 break;
             default:
                 break;
