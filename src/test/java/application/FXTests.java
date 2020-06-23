@@ -2,6 +2,7 @@ package application;
 
 import javafx.application.Application;
 import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -18,6 +19,8 @@ public class FXTests extends ApplicationTest {
     TextField searchStateTextField;
     TextField priceTextField;
     TextField wholesalePriceTextField;
+    TextField searchCountryTextField;
+    TextField minimalPriceTextField;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -28,6 +31,8 @@ public class FXTests extends ApplicationTest {
         searchStateTextField = find("#searchStateTextField");
         priceTextField = find("#priceTextField");
         wholesalePriceTextField = find("#wholesalePriceTextField");
+        searchCountryTextField = find("#searchCountryTextField");
+        minimalPriceTextField = find("#minimalPriceTextField");
     }
 
     @Test
@@ -112,18 +117,37 @@ public class FXTests extends ApplicationTest {
     public void wholesalePriceTextField_ExampleData_NotFound() {
         searchProductTextField.setText("ExampleData");
 
-        clickOn("#checkProductWholesalePriceButton");
+        clickOn("#checkButton");
 
         assertThat(wholesalePriceTextField.getText(), equalTo("Not found"));
     }
 
     @Test
-    public void wholesalePriceTextField_NoData_NotFound() {
-        searchProductTextField.setText("");
+    public void wholesalePriceTextField_isEditable_False() {
+        assertThat(wholesalePriceTextField.isEditable(), equalTo(false));
+    }
 
-        clickOn("#checkProductWholesalePriceButton");
+    @Test
+    public void searchCountryTextField_isDisable_True() {
+        assertThat(searchCountryTextField.isDisable(), equalTo(true));
+    }
 
-        assertThat(wholesalePriceTextField.getText(), equalTo("Not found"));
+    @Test
+    public void searchCountryTextField_isDisable_False() {
+        clickOn("#sendAbroadCheckBox");
+        assertThat(wholesalePriceTextField.isDisable(), equalTo(false));
+    }
+
+    @Test
+    public void searchStateTextField_isEditable_True() {
+        clickOn("#sendAbroadCheckBox");
+        assertThat(searchStateTextField.isDisable(), equalTo(true));
+    }
+
+    @Test
+    public void minimalPriceTextField_isDisable_True() {
+        clickOn("#sendAbroadCheckBox");
+        assertThat(minimalPriceTextField.isDisable(), equalTo(true));
     }
 
     public <T extends Node> T find(final String query) {
