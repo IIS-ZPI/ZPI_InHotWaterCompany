@@ -79,10 +79,10 @@ public class Controller implements Initializable {
             SQLiteDatabase database = new SQLiteDatabase(path);
 
             if (!databaseExists) {
-                database.initialize("src/main/resources/initial.sql");
-                CSVLoader.loadProducts(new CSV("src/main/resources/products.csv"), database);
-                CSVLoader.loadLogisticCosts(new CSV("src/main/resources/US_States_Common_Costs.csv"), database);
-                CSVLoader.loadInternationalTransportationCosts(new CSV("src/main/resources/International Transportation Costs.csv"), database);
+                database.initialize("/tmp/initial.sql");
+                CSVLoader.loadProducts(new CSV("/tmp/products.csv"), database);
+                CSVLoader.loadLogisticCosts(new CSV("/tmp/US_States_Common_Costs.csv"), database);
+                CSVLoader.loadInternationalTransportationCosts(new CSV("/tmp/International Transportation Costs.csv"), database);
             }
 
             stateList.addAll(database.fetchAllStates());
