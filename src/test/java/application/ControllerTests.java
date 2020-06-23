@@ -6,9 +6,12 @@ import application.product.CategoryTax;
 import application.product.ProductCategory;
 import application.product.ProductInfo;
 import javafx.collections.ObservableList;
+import org.junit.Ignore;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -116,5 +119,23 @@ public class ControllerTests {
         assertThat(dataInTable.getPriceWithoutTax(), equalTo(expectedPriceWithoutTax));
         assertThat(dataInTable.getMargin(), equalTo(expectedMargin));
         assertThat(dataInTable.getLogisticCost(), equalTo(expectedLogisticCost));
+    }
+
+    @Test
+    public void getDataForAllCountryList_ReturnedSpecifiedElement() throws IOException {
+        List<ImportCountry> importCountries = new ArrayList<>();
+        importCountries.add(poland);
+        ObservableList<DataInTable> observableList = controller.getDataForAllCountryList(poland, importCountries, apple, 8);
+        DataInTable dataInTable = observableList.get(0);
+
+        final String expectedCountry = "Poland";
+        final String expectedPriceWithoutTax = "-";
+        final String expectedLogisticCosts = "7.81 PLN";
+        final String expectedMargin = "3.52 PLN";
+
+        assertThat(dataInTable.getState(), equalTo(expectedCountry));
+        assertThat(dataInTable.getPriceWithoutTax(), equalTo(expectedPriceWithoutTax));
+        assertThat(dataInTable.getLogisticCost(), equalTo(expectedLogisticCosts));
+        assertThat(dataInTable.getMargin(), equalTo(expectedMargin));
     }
 }
